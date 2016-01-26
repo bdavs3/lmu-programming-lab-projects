@@ -17,8 +17,6 @@ public class DateDistance {
 		return !((year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0));
 	}
 
-	//Formula crafted by Curtis McEnroe.  Genius way of compressing a rather larger switch statement into one line of code.
-	//https://cmcenroe.me/2014/12/05/days-in-month-formula.html
 	public static long monthLength(long month, long year) {
 		switch ((int) month) {
 			case 1: return 31;
