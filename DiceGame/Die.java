@@ -16,6 +16,9 @@ public class Die {
     // Constructs a Die with the given number of sides with a random side
     // face up.
     public Die(long numberOfSides) {
+    	if (numberOfSides < 2) {
+    		throw new IllegalArgumentException();
+    	}
         this.numberOfSides = numberOfSides;
         this.roll();
     }
@@ -23,6 +26,9 @@ public class Die {
     // Constructs a Die with the default number of sides with the given side
     // face up, provided the face is valid for the number of sides.
     public Die(long numberOfSides, long faceUpSide) {
+    	if (numberOfSides < 2 || faceUpSide < 1 || faceUpSide > numberOfSides) {
+    		throw new IllegalArgumentException();
+    	}
         this.numberOfSides = numberOfSides;
         this.faceUpSide = faceUpSide;
     }
@@ -43,6 +49,9 @@ public class Die {
     // Changes the face up side of the Die to the provided face, provided it is 
     // valid for the number of sides.
     public void setFaceUpSide(long side) {
+    	if (side < 1 || side > this.numberOfSides) {
+    		throw new IllegalArgumentException();
+    	}
         faceUpSide = side;
     }
     
