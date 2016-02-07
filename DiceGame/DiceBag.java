@@ -83,7 +83,7 @@ public class DiceBag {
     // Return one Die chosen randomly from the DiceBag.
     public Die getRandomDie() {
         int randomIndex = (int) Math.floor(Math.random() * (dice.length));
-        return dice[randomIndex];
+        return this.getDie(randomIndex);
     }
     
     // Replace the Die at given index within the DiceBag with the provided Die.
@@ -108,7 +108,7 @@ public class DiceBag {
     		return false;
     	} else {
     		for (int i = 0; i < dice.length; i++) {
-    			if (dice[i].getNumberOfSides() != otherBag.dice[i].getNumberOfSides()) {
+    			if (this.getDie(i).getNumberOfSides() != otherBag.getDie(i).getNumberOfSides()) {
     				return false;
     			}
     		}
