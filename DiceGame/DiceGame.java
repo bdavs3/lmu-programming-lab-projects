@@ -47,6 +47,7 @@ public class DiceGame {
     private long playerOneScore;
     private long playerTwoScore;
     private long round;
+    private static final int FIRST_DIE_GRABBED = 0;
     
     public DiceGame() {
         this(new DiceBag(), new DiceBag());
@@ -84,10 +85,10 @@ public class DiceGame {
     }
     
     public Round playRound() {
-    	int playerOneIndex = (int) Math.floor(Math.random() * (playerOneBag.getBagSize()));
-    	int playerTwoIndex = (int) Math.floor(Math.random() * (playerOneBag.getBagSize()));
+    	playerOneBag.shakeBag();
+    	playerTwoBag.shakeBag();
     	
-        Round round = new Round(playerOneBag.getDie(playerOneIndex), playerTwoBag.getDie(playerTwoIndex));
+        Round round = new Round(playerOneBag.getDie(FIRST_DIE_GRABBED), playerTwoBag.getDie(FIRST_DIE_GRABBED));
         
         round.playerOneDie.roll();
         long playerOneRoll = round.playerOneDie.getFaceUpSide();
