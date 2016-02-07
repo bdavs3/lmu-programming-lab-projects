@@ -7,6 +7,8 @@ public class DiceBag {
     public static final int DEFAULT_NUMBER_OF_DICE = 2;
     public static final int MIN_NUMBER_OF_DICE = 1;
     private Die[] dice;
+    private Die[] originalDice; //used in the reorderDice() method.. the reordered array needs to grab
+    							//elements from this "original" array
     
     // Constructs a DiceBag with the default number of Die objects, each 
     // with the default number of sides.
@@ -47,8 +49,8 @@ public class DiceBag {
     // Roll every Die within the DiceBag and reorder the Dice within the 
     // bag randomly.
     public void shakeBag() {
-        for (int i = 0; i < dice.length; i++) {
-        	dice[i].roll();
+        for (int i = 0; i < this.getBagSize(); i++) {
+        	this.getDie(i).roll();
         }
         
         this.reorderDice();
@@ -56,10 +58,13 @@ public class DiceBag {
     
     // Reorder the Dice within the bag randomly.
     public void reorderDice() {
-    	Die[] originalDice = dice;
-    	int[] indexes = new int[dice.length];
+    	originalDice = new Die[this.getBagSize()];
+    	for (int i = 0; i < this.getBagSize(); i++) {
+    		originalDice[i] = this.getDie(i);
+    	}
+    	int[] indexes = new int[this.getBagSize()];
     	
-    	for (int i = 0; i < dice.length; i++) {
+    	for (int i = 0; i < this.getBagSize(); i++) {
     		indexes[i] = i;
     	}
     	
