@@ -84,9 +84,10 @@ public class DiceGame {
     }
     
     public Round playRound() {
-    	int randomIndex = (int) Math.floor(Math.random() * (playerOneBag.getBagSize()));
+    	int playerOneIndex = (int) Math.floor(Math.random() * (playerOneBag.getBagSize()));
+    	int playerTwoIndex = (int) Math.floor(Math.random() * (playerOneBag.getBagSize()));
     	
-        Round round = new Round(playerOneBag.getDie(randomIndex), playerTwoBag.getDie(randomIndex));
+        Round round = new Round(playerOneBag.getDie(playerOneIndex), playerTwoBag.getDie(playerTwoIndex));
         
         round.playerOneDie.roll();
         long playerOneRoll = round.playerOneDie.getFaceUpSide();
