@@ -7,8 +7,8 @@ public class DiceBag {
     public static final int DEFAULT_NUMBER_OF_DICE = 2;
     public static final int MIN_NUMBER_OF_DICE = 1;
     private Die[] dice;
-    private Die[] originalDice; //used in the reorderDice() method.. the reordered array needs to grab
-    							//elements from this "original" array
+    DiceBag originalBag;	//used in the reorderDice() method.. the reordered array needs to grab
+    						//elements from this "original" array
     
     // Constructs a DiceBag with the default number of Die objects, each 
     // with the default number of sides.
@@ -22,6 +22,9 @@ public class DiceBag {
     // Constructs a DiceBag with the given number of Die objects, each 
     // with the default number of sides.
     public DiceBag(int numberOfDice) {
+    	if (numberOfDice < 1) {
+    		throw new IllegalArgumentException();
+    	}
     	dice = new Die[numberOfDice];
         for (int i = 0; i < numberOfDice; i++) {
         	dice[i] = new Die();
@@ -31,6 +34,9 @@ public class DiceBag {
     // Constructs a DiceBag with the given of Die objects, each 
     // with the given number of sides.
     public DiceBag(int numberOfDice, long sidesPerDie) {
+    	if (numberOfDice < 1 || sidesPerDie < 2) {
+    		throw new IllegalArgumentException();
+    	}
     	this.dice = new Die[numberOfDice];
     	for (int i = 0; i < numberOfDice; i++) {
         	dice[i] = new Die(sidesPerDie);
@@ -41,6 +47,11 @@ public class DiceBag {
     // of sides within sidesPerDie array.
     public DiceBag(long[] sidesPerDie) {
     	dice = new Die[sidesPerDie.length];
+    	for (int i = 0; i < this.getBagSize(); i++) {
+    		if (sidesPerDie[i] < 2) {
+    			throw new IllegalArgumentException();
+    		}
+    	}
         for (int i = 0; i < sidesPerDie.length; i++) {
         	dice[i] = new Die(sidesPerDie[i]);
         }
@@ -56,49 +67,40 @@ public class DiceBag {
         this.reorderDice();
     }
     
+    // Will assist with the reorderDice() method
+    public int[] randomizeArray(int[] array) {
+    		for (int i = 0; i < array.length; i++) {
+		    int randomPosition = ((int) Math.floor(Math.random() * this.getBagSize()));
+		    int temp = array[i];
+		    array[i] = array[randomPosition];
+		    array[randomPosition] = temp;
+		}
+ 
+		return array;
+	}
+    
     // Reorder the Dice within the bag randomly.
     public void reorderDice() {
-    	originalDice = new Die[this.getBagSize()];
-    	for (int i = 0; i < this.getBagSize(); i++) {
-    		originalDice[i] = this.getDie(i);
-    	}
     	int[] indexes = new int[this.getBagSize()];
-    	
     	for (int i = 0; i < this.getBagSize(); i++) {
     		indexes[i] = i;
     	}
+    	randomizeArray(indexes);
     	
-        for (int i = indexes.length - 1; i > 0; i--) {
-          int index = (int) Math.floor(Math.random() * (i + 1));
-          int a = indexes[index];
-          indexes[index] = indexes[i];
-          indexes[i] = a;
-        }
+    	originalBag = new DiceBag(this.getBagSize());
+    	for (int i = 0; i < this.getBagSize(); i++) {
+    		originalBag.setDie(i, this.getDie(i));
+    	}
         
-        for (int i = 0; i < dice.length; i++) {
-        	dice[i] = originalDice[indexes[i]];
+    	for (int i = 0; i < this.getBagSize(); i++) {
+        	dice[i] = originalBag.getDie(indexes[i]);
         }
-    }
-    
-    // Return one Die chosen randomly from the DiceBag.
-    public Die getRandomDie() {
-        int randomIndex = (int) Math.floor(Math.random() * (dice.length));
-        return this.getDie(randomIndex);
-    }
-    
-    // Replace the Die at given index within the DiceBag with the provided Die.
-    public void setDie(int index, Die die) {
-        dice[index] = die;
-    }
-    
-    // Returns the Die at given index within the DiceBag.
-    public Die getDie(int index) {
-        return dice[index];
-    }
-    
-    // Returns the number of Die objects within the DiceBag.
-    public int getBagSize() {
-        return dice.length;
+    	
+    	if (orderedEquals(originalBag)) {
+    		this.reorderDice();
+    	}
+    	
+    	return;
     }
     
     // Returns true if this DiceBag contains the equivalent Dice in the same 
@@ -115,6 +117,33 @@ public class DiceBag {
     	}
     	
     	return true;
+    }
+    
+    // Return one Die chosen randomly from the DiceBag.
+    public Die getRandomDie() {
+        int randomIndex = (int) Math.floor(Math.random() * (dice.length));
+        return this.getDie(randomIndex);
+    }
+    
+    // Replace the Die at given index within the DiceBag with the provided Die.
+    public void setDie(int index, Die die) {
+    	if (index < 0 || index > this.getBagSize()) {
+    		throw new IllegalArgumentException();
+    	}
+        dice[index] = die;
+    }
+    
+    // Returns the Die at given index within the DiceBag.
+    public Die getDie(int index) {
+    	if (index < 0 || index > this.getBagSize()) {
+    		throw new IllegalArgumentException();
+    	}
+        return dice[index];
+    }
+    
+    // Returns the number of Die objects within the DiceBag.
+    public int getBagSize() {
+        return dice.length;
     }
     
     // Returns a string representation of the DiceBag.
