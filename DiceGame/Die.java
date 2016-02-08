@@ -23,7 +23,7 @@ public class Die {
         this.roll();
     }
     
-    // Constructs a Die with the default number of sides with the given side
+    // Constructs a Die with the given number of sides with the given side
     // face up, provided the face is valid for the number of sides.
     public Die(long numberOfSides, long faceUpSide) {
     	if (numberOfSides < 2 || faceUpSide < 1 || faceUpSide > numberOfSides) {
