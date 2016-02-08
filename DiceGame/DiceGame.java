@@ -47,7 +47,6 @@ public class DiceGame {
     private long playerOneScore;
     private long playerTwoScore;
     private long round;
-    private static final int FIRST_DIE_GRABBED = 0;
     
     public DiceGame() {
         this(new DiceBag(), new DiceBag());
@@ -73,7 +72,7 @@ public class DiceGame {
     }
 
     public boolean isMatchOver() {
-        return (playerOneScore >= 30 || playerTwoScore >= 30 || round == 25);
+        return (playerOneScore >= 30 || playerTwoScore >= 30 || round >= 25);
     }
     
     public Player getLeader() {
@@ -88,7 +87,7 @@ public class DiceGame {
     	playerOneBag.shakeBag();
     	playerTwoBag.shakeBag();
     	
-        Round round = new Round(playerOneBag.getDie(FIRST_DIE_GRABBED), playerTwoBag.getDie(FIRST_DIE_GRABBED));
+        Round round = new Round(playerOneBag.getRandomDie(), playerTwoBag.getRandomDie());
         
         round.playerOneDie.roll();
         long playerOneRoll = round.playerOneDie.getFaceUpSide();
@@ -113,6 +112,13 @@ public class DiceGame {
     public Round[] playMatch() {
     	round = 0;
     	Round[] roundAr = new Round[25];
+    	System.out.println("DICE GAME!");
+    	System.out.printf("\n");
+    	System.out.println("Starting Bags: ");
+    	System.out.printf("\n");
+    	System.out.println("Player One: " + playerOneBag.toString());
+    	System.out.println("Player Two: " + playerTwoBag.toString());
+    	System.out.printf("\n");
         while (!this.isMatchOver()) {
         	Round currentRound = this.playRound();
         	roundAr[(int) round] = currentRound;
@@ -120,12 +126,12 @@ public class DiceGame {
         	System.out.println(currentRound);
         	System.out.println("Player One Score: " + playerOneScore);
         	System.out.println("Player Two Score: " + playerTwoScore);
-        	System.out.println("\n");
+        	System.out.printf("\n");
         	round++;
         }
-        if (playerOneScore > playerTwoScore) {
+        if (getLeader() == Player.PLAYER_ONE) {
         	System.out.println("PLAYER ONE WINS!");
-        } else if (playerTwoScore > playerOneScore){
+        } else if (getLeader() == Player.PLAYER_TWO) {
         	System.out.println("PLAYER TWO WINS!");
         } else {
         	System.out.println("IT'S A TIE!");
