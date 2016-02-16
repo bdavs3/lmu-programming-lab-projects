@@ -1,5 +1,3 @@
-package game;
-
 public class DiceGame {
 
     public enum Player {
