@@ -1,5 +1,3 @@
-package game;
-
 public class Die {
     public static final long DEFAULT_SIDES = 6;
     public static final long MIN_SIDE_VALUE = 1;
