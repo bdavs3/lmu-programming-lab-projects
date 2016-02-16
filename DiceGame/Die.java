@@ -16,9 +16,9 @@ public class Die {
     // Constructs a Die with the given number of sides with a random side
     // face up.
     public Die(long numberOfSides) {
-    	if (numberOfSides < 2) {
+        if (numberOfSides < 2) {
     		throw new IllegalArgumentException();
-    	}
+        }
         this.numberOfSides = numberOfSides;
         this.roll();
     }
