@@ -55,12 +55,12 @@ public class ClockSolverLine {
 
         while(!clock.getCompleteRotation()) {
             new ClockSolverLine(clock, timeSlice);
-            String angle = Double.toString(getAngle(clock));
+            String angle = Double.toString(Math.round(getAngle(clock) * 10.0) / 10.0);
             long hours = clock.getHours() == 0 ? 12 : clock.getHours();
             String minutes = clock.getMinutes() < 10 ? "0" + Long.toString(clock.getMinutes()) : Long.toString(clock.getMinutes());
-            String seconds = Double.toString(clock.getSeconds());
+            String seconds = Double.toString(Math.round(clock.getSeconds() * 10.0) / 10.0);
             
-            if (Math.abs(STRAIGHT_ANGLE - getAngle(clock)) < changePerTick(timeSlice)) {
+            if (Math.abs(STRAIGHT_ANGLE - getAngle(clock)) < changePerTick(timeSlice) && clock.getHours() < 12) {
                 numberOfStraightAngles++;
                 new ClockSolverLine(clock, timeSlice);
                 System.out.println("Angle of " + angle + " occurs at " + Long.toString(hours) + ":" + minutes + ":" + seconds + "."); 
