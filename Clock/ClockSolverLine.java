@@ -5,7 +5,9 @@ public class ClockSolverLine {
     private static double MIN_HAND_DEGREES_PER_SEC = 0.1;
     private static double HOUR_HAND_DEGREES_PER_MIN = 0.5;
     private static double HOUR_HAND_DEGREES_PER_SEC = 0.5 / 60;
+    private static double STRAIGHT_ANGLE = 180.0;
     private static long numberOfStraightAngles = 0;
+    private static double timeSlice;
 
     public ClockSolverLine(Clock clock, double timeSlice) {
         clock.tick(timeSlice);
@@ -25,29 +27,17 @@ public class ClockSolverLine {
         minuteAngle += min * DEGREES_IN_A_MIN;
         minuteAngle += sec * MIN_HAND_DEGREES_PER_SEC;
 
-        return Math.abs(minuteAngle - hourAngle);
+        double hourToMinAngle = Math.abs(hourAngle - minuteAngle);
+        double minToHourAngle = Math.abs(minuteAngle - hourAngle);
+        return hourToMinAngle < minToHourAngle ? hourToMinAngle : minToHourAngle;
+    }
+
+    public static double changePerTick(double timeSlice) {
+        return Math.abs(HOUR_HAND_DEGREES_PER_SEC * timeSlice - MIN_HAND_DEGREES_PER_SEC * timeSlice);
     }
 
     public static void main(String[] args) {
         Clock clock = new Clock();
-
-        /*new ClockSolverLine(clock, 30.0);
-        System.out.println(clock.getHours());
-        System.out.println(clock.getMinutes());
-        System.out.println(clock.getSeconds());
-        System.out.println(getAngle(clock));
-        
-        new ClockSolverLine(clock, 30.0);
-        System.out.println(clock.getHours());
-        System.out.println(clock.getMinutes());
-        System.out.println(clock.getSeconds());
-        System.out.println(getAngle(clock));
-        
-        new ClockSolverLine(clock, 30.0);
-        System.out.println(clock.getHours());
-        System.out.println(clock.getMinutes());
-        System.out.println(clock.getSeconds());
-        System.out.println(getAngle(clock));*/
         try {
             if (args.length != 0) {
                 Double.parseDouble(args[0]);
@@ -61,28 +51,21 @@ public class ClockSolverLine {
                 throw new IllegalArgumentException();
             }
         }
-        double slice  = args.length == 0 ? DEFAULT_TIME_SLICE : Double.parseDouble(args[0]);
+        timeSlice  = args.length == 0 ? DEFAULT_TIME_SLICE : Double.parseDouble(args[0]);
 
         while(!clock.getCompleteRotation()) {
-            new ClockSolverLine(clock, slice / 2);
-            double firstAngleInRange = getAngle(clock);
-
-            new ClockSolverLine(clock, slice / 2);
-            String actualAngle = Double.toString(getAngle(clock));
+            new ClockSolverLine(clock, timeSlice);
+            String angle = Double.toString(getAngle(clock));
             long hours = clock.getHours() == 0 ? 12 : clock.getHours();
             String minutes = clock.getMinutes() < 10 ? "0" + Long.toString(clock.getMinutes()) : Long.toString(clock.getMinutes());
             String seconds = Double.toString(clock.getSeconds());
-
-            new ClockSolverLine(clock, slice / 2);
-            double secondAngleInRange = getAngle(clock);
             
-            if ((firstAngleInRange <= 180.0 && secondAngleInRange >= 180.0) || (firstAngleInRange >= 180.0 && secondAngleInRange <= 180.0)) {
+            if (Math.abs(STRAIGHT_ANGLE - getAngle(clock)) < changePerTick(timeSlice)) {
                 numberOfStraightAngles++;
-                System.out.println(firstAngleInRange);
-                System.out.println(actualAngle);
-                System.out.println(secondAngleInRange);
-                System.out.println("Angle of " + actualAngle + " occurs at " + Long.toString(hours) + ":" + minutes + ":" + seconds); 
+                new ClockSolverLine(clock, timeSlice);
+                System.out.println("Angle of " + angle + " occurs at " + Long.toString(hours) + ":" + minutes + ":" + seconds + "."); 
             }
         }
+        System.out.println("There are " + numberOfStraightAngles + " straight angles.");
     }
 }
