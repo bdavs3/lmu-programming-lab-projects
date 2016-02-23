@@ -18,7 +18,6 @@ public class ClockSolverLine {
     }
 
     public static void main(String[] args) {
-        Clock clock = new Clock();
         try {
             if (args.length != 0) {
                 Double.parseDouble(args[0]);
@@ -34,6 +33,6 @@ public class ClockSolverLine {
         }
         timeSlice = args.length == 0 ? DEFAULT_TIME_SLICE : Double.parseDouble(args[0]);
         clock.degreesPerTick(timeSlice);
-        new ClockSolverLine(clock, timeSlice);
+        new ClockSolverLine(new Clock(), timeSlice);
     }
 }
