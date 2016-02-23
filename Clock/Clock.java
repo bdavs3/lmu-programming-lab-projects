@@ -9,17 +9,20 @@ public class Clock {
     private double seconds, angle, degreesEachTick;
     private boolean completeRotation = false;
 
+    //creates a clock with hours, minutes, and seconds all initializing to 0
     public Clock() {
         this.hours = INIT_TIME_VALUE;
         this.minutes = INIT_TIME_VALUE;
         this.seconds = INIT_TIME_VALUE;
     }
 
+    //for each tick, the hours, min, and sec hands all have their values updated,
+    //and the angle between the min and hour hand is calculated
     public void tick(double slice) {
         this.seconds += slice;
-        angle += this.degreesEachTick;
-        if (angle >= 360) {
-            angle -= 360;
+        this.angle += this.degreesEachTick;
+        if (this.angle >= 360) {
+            this.angle -= 360;
         }
 
         if (this.seconds >= SEC_IN_A_MIN) {
@@ -27,19 +30,21 @@ public class Clock {
             setSeconds(this.seconds % SEC_IN_A_MIN);
         }
         if (this.minutes >= MIN_IN_AN_HOUR) {
-            setHours(hours + 1);
+            setHours(this.hours + 1);
             setMinutes(this.minutes % MIN_IN_AN_HOUR);
         }
         if (this.hours >= HOURS_ON_A_CLOCK) {
-            completeRotation = true;
+            this.completeRotation = true;
         }
     }
 
-    public void degreesPerTick(double slice) {
+    //uses a slice (from ClockSolverLine or ClockSolverAngle class) to determine
+    //how many degrees the angle between the hands increases for each slice
+    public void setDegreesPerTick(double slice) {
         this.degreesEachTick = Math.abs(HOUR_HAND_DEGREES_PER_MIN * slice - MIN_HAND_DEGREES_PER_SEC * slice);
     }
 
-    public double getDegreesEachTick() {
+    public double getDegreesPerTick() {
         return this.degreesEachTick;
     }
 
@@ -47,10 +52,13 @@ public class Clock {
         return this.angle;
     }
 
+    //most important method in the project
     public boolean formsDesiredAngle(double angle) {
-        return (Math.abs(angle - this.getAngle()) < this.degreesEachTick / 2 && this.hours < 12);
+        return (Math.abs(angle - this.angle) < this.degreesEachTick / 2 && this.hours < 12);
     }
 
+    //string representation of the clock in the form HH:MM:SS.S
+    //...compensates for when seconds are rounded to 60.0, which is visually confusing
     public String toString() {
         long hours = this.hours == 0 ? 12 : this.hours;
         String hoursStr = Long.toString(hours);
@@ -71,6 +79,7 @@ public class Clock {
         return this.seconds;
     }
 
+    //determines whether the clock has gone around once from 12:00 till 12:00
     public boolean getCompleteRotation() {
         return this.completeRotation;
     }
