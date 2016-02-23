@@ -18,6 +18,7 @@ public class ClockSolverAngle {
     }
 
     public static void main(String[] args) {
+        Clock clock = new Clock();
         try {
             if (args.length == 1) {
                 Double.parseDouble(args[0]);
@@ -43,6 +44,6 @@ public class ClockSolverAngle {
         desiredAngle = Double.parseDouble(args[0]);
         timeSlice  = args.length == 1 ? DEFAULT_TIME_SLICE : Double.parseDouble(args[1]);
         clock.degreesPerTick(timeSlice);
-        new ClockSolverAngle(new Clock(), desiredAngle, timeSlice);
+        new ClockSolverAngle(clock, desiredAngle, timeSlice);
     }
 }
