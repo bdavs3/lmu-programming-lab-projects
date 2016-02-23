@@ -4,19 +4,23 @@ public class ClockSolverLine {
     private static long numberOfStraightAngles = 0;
     private static double timeSlice;
 
-    public ClockSolverLine(Clock clock, double timeSlice) {
+    //"do while" is used to maintain consistency with the ClockSolverAngle class
+    //also, it is good practice to check for the angle at 12:00, even though we know that
+    //it is impossible for a 180 degree angle to occur at that time
+    public ClockSolverLine(Clock clock) {
         do {
             String angle = Double.toString(Math.round(clock.getAngle() * 10.0) / 10.0);
             if (clock.formsDesiredAngle(STRAIGHT_ANGLE)) {
-                numberOfStraightAngles++;
+                this.numberOfStraightAngles++;
                 System.out.println("Angle of " + angle + " occurs at " + clock.toString()); 
             }
 
-            clock.tick(timeSlice);
+            clock.tick(this.timeSlice);
         } while(!clock.getCompleteRotation());
-        System.out.println("There are " + numberOfStraightAngles + " straight angles.");
+        System.out.println("There are " + this.numberOfStraightAngles + " straight angles.");
     }
 
+    //catches and throws exceptions for all kinds of invalid input
     public static void main(String[] args) {
         Clock clock = new Clock();
         try {
@@ -33,7 +37,7 @@ public class ClockSolverLine {
             }
         }
         timeSlice = args.length == 0 ? DEFAULT_TIME_SLICE : Double.parseDouble(args[0]);
-        clock.degreesPerTick(timeSlice);
-        new ClockSolverLine(clock, timeSlice);
+        clock.setDegreesPerTick(timeSlice);
+        new ClockSolverLine(clock);
     }
 }
