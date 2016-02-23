@@ -5,19 +5,15 @@ public class ClockSolverLine {
     private static double timeSlice;
 
     public ClockSolverLine(Clock clock, double timeSlice) {
-        while(!clock.getCompleteRotation()) {
-            clock.tick(timeSlice);
-
+        do {
             String angle = Double.toString(Math.round(clock.getAngle() * 10.0) / 10.0);
-            long hours = clock.getHours() == 0 ? 12 : clock.getHours();
-            String minutes = clock.getMinutes() < 10 ? "0" + Long.toString(clock.getMinutes()) : Long.toString(clock.getMinutes());
-            String seconds = Double.toString(Math.round(clock.getSeconds() * 10.0) / 10.0);
-
             if (clock.formsDesiredAngle(STRAIGHT_ANGLE)) {
                 numberOfStraightAngles++;
                 System.out.println("Angle of " + angle + " occurs at " + clock.toString()); 
             }
-        }
+
+            clock.tick(timeSlice);
+        } while(!clock.getCompleteRotation());
         System.out.println("There are " + numberOfStraightAngles + " straight angles.");
     }
 
