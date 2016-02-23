@@ -7,9 +7,13 @@ public class ClockSolverAngle {
     public ClockSolverAngle(Clock clock, double desiredAngle, double timeSlice) {
         do {
             String angle = Double.toString(Math.round(clock.getAngle() * 10.0) / 10.0);
-            if (clock.formsDesiredAngle(desiredAngle) || clock.formsDesiredAngle(360 - desiredAngle)) {
+            String inverseAngle = Double.toString(360 - Math.round(clock.getAngle() * 10.0) / 10.0);
+            if (clock.formsDesiredAngle(desiredAngle)) {
                 numberOfDesiredAngles++;
                 System.out.println("Angle of " + angle + " occurs at " + clock.toString()); 
+            } else if (clock.formsDesiredAngle(360 - desiredAngle)) {
+                numberOfDesiredAngles++;
+                System.out.println("Angle of " + inverseAngle + " occurs at " + clock.toString());
             }
 
             clock.tick(timeSlice);
