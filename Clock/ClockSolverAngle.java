@@ -4,12 +4,20 @@ public class ClockSolverAngle {
     private static double desiredAngle;
     private static double timeSlice;
 
-    public ClockSolverAngle(Clock clock, double timeSlice) {
-        clock.tick(timeSlice);
+    public ClockSolverAngle(Clock clock, double desiredAngle, double timeSlice) {
+        do {
+            String angle = Double.toString(Math.round(clock.getAngle() * 10.0) / 10.0);
+            if (clock.formsDesiredAngle(desiredAngle) || clock.formsDesiredAngle(360 - desiredAngle)) {
+                numberOfDesiredAngles++;
+                System.out.println("Angle of " + angle + " occurs at " + clock.toString()); 
+            }
+
+            clock.tick(timeSlice);
+        } while(!clock.getCompleteRotation());
+        System.out.println("There are " + numberOfDesiredAngles + " " + desiredAngle + " degree angles.");
     }
 
     public static void main(String[] args) {
-        Clock clock = new Clock();
         try {
             if (args.length == 1) {
                 Double.parseDouble(args[0]);
@@ -33,21 +41,8 @@ public class ClockSolverAngle {
             }
         }
         desiredAngle = Double.parseDouble(args[0]);
-        timeSlice  = args.length == 1 ? DEFAULT_TIME_SLICE : Double.parseDouble(args[0]);
-
-        while(!clock.getCompleteRotation()) {
-            new ClockSolverAngle(clock, timeSlice);
-            String angle = Double.toString(Math.round(ClockSolverLine.getAngle(clock) * 10.0) / 10.0);
-            long hours = clock.getHours() == 0 ? 12 : clock.getHours();
-            String minutes = clock.getMinutes() < 10 ? "0" + Long.toString(clock.getMinutes()) : Long.toString(clock.getMinutes());
-            String seconds = Double.toString(Math.round(clock.getSeconds() * 10.0) / 10.0);
-            
-            if (Math.abs(desiredAngle - ClockSolverLine.getAngle(clock)) < ClockSolverLine.changePerTick(timeSlice) && clock.getHours() < 12) {
-                numberOfDesiredAngles++;
-                new ClockSolverLine(clock, timeSlice);
-                System.out.println("Angle of " + angle + " occurs at " + Long.toString(hours) + ":" + minutes + ":" + seconds + "."); 
-            }
-        }
-        System.out.println("There are " + numberOfDesiredAngles + " " + desiredAngle + " degree angles.");
+        timeSlice  = args.length == 1 ? DEFAULT_TIME_SLICE : Double.parseDouble(args[1]);
+        clock.degreesPerTick(timeSlice);
+        new ClockSolverAngle(new Clock(), desiredAngle, timeSlice);
     }
 }
