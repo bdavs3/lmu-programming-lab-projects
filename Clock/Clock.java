@@ -53,9 +53,10 @@ public class Clock {
 
     public String toString() {
         long hours = this.hours == 0 ? 12 : this.hours;
-        String minutes = this.minutes < 10 ? "0" + Long.toString(this.minutes) : Long.toString(this.minutes);
-        String seconds = Double.toString(Math.round(this.seconds * 10.0) / 10.0);
-        return (Long.toString(hours) + ":" + minutes + ":" + seconds + ".");
+        String hoursStr = Long.toString(hours);
+        String minutesStr = this.minutes < 10 ? "0" + Long.toString(this.minutes) : Long.toString(this.minutes);
+        String secondsStr = this.seconds <= 59.9 ? Double.toString(Math.round(this.seconds * 10.0) / 10.0) : "59.9";
+        return (hoursStr + ":" + minutesStr + ":" + secondsStr + ".");
     }
 
     public long getHours() {
