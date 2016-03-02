@@ -128,20 +128,22 @@ public class BigInteger {
         BigInteger thisAbs = this.abs();
         BigInteger valAbs = val.abs();
         if (this.abs().compareTo(val.abs()) < 0) {
-            if (this.sign < 0 && val.sign > 0) {
-                return new BigInteger("-" + thisAbs.add(valAbs).toString());
+            if (this.sign > 0 && val.sign > 0) {
+                return new BigInteger("-" + val.subtract(this).toString());
+            } else if (this.sign < 0 && val.sign > 0) {
+                return new BigInteger("-" + thisAbs.add(val).toString());
             } else if (this.sign > 0 && val.sign < 0) {
-                return thisAbs.add(valAbs);
+                return this.add(valAbs);
             } else if (this.sign < 0 && val.sign < 0) {
-                return new BigInteger("-" + thisAbs.subtract(valAbs).toString());
+                return new BigInteger(valAbs.subtract(thisAbs).toString());
             }
         } else if (this.abs().compareTo(val.abs()) > 0) {
             if (this.sign < 0 && val.sign > 0) {
-                return new BigInteger("-" + thisAbs.subtract(val).toString());
+                return new BigInteger("-" + thisAbs.add(val).toString());
             } else if (this.sign > 0 && val.sign < 0) {
-                return this.subtract(valAbs);
+                return this.add(valAbs);
             } else if (this.sign < 0 && val.sign < 0) {
-                return new BigInteger("-" + thisAbs.add(valAbs).toString());
+                return new BigInteger("-" + thisAbs.subtract(valAbs).toString());
             }
         } else {
             if (this.sign < 0 && val.sign > 0) {
