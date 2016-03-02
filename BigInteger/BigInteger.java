@@ -50,6 +50,28 @@ public class BigInteger {
         return this.toString().substring(0,1).equals("-") ? new BigInteger(this.toString().substring(1)) : new BigInteger(this.toString());
     }
 
+    public BigInteger divideByTwo() {
+        BigInteger result = new BigInteger(this.toString());
+
+        if (result.bigIntArray[0] % 2 != 0) {
+            result.bigIntArray[0]--;
+        }
+
+        for (int i = 0; i < result.bigIntArray.length; i++) {
+            try {
+                if (result.bigIntArray[i + 1] % 2 != 0) {
+                result.bigIntArray[i] = (result.bigIntArray[i] + 10) / 2;
+                } else {
+                    result.bigIntArray[i] /= 2;
+                }
+            } catch (Exception e) {
+                result.bigIntArray[i] /= 2;
+            }
+        }
+
+        return result;
+    }
+
     public BigInteger add(BigInteger val) {
         String result = "";
 
