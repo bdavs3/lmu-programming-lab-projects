@@ -14,11 +14,11 @@ public class BigIntegerTestHarness {
         test_Equals();
         test_Addition();
         test_Subtraction();
-        //   test_compareTo
-        //   test_valueOf
-        //   test_Multiplication
-        //   test_IntegerDivision
-        //   test_Modulo
+        test_compareTo();
+        test_valueOf();
+        //   test_Multiplication();
+        //   test_IntegerDivision();
+        //   test_Modulo();
 
         System.out.println(successes + "/" + attempts + " tests passed.");
     }
@@ -173,6 +173,15 @@ public class BigIntegerTestHarness {
         try {
             displaySuccessIfTrue(new BigInteger("123456789123456789")
                     .equals(new BigInteger("000123456789123456789")));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(!(new BigInteger("123")
+                    .equals("123")));
         } catch (UnsupportedOperationException uoe) {
             displayUnimplementedMethodFailure();
         } catch(Exception e) {
@@ -469,5 +478,80 @@ public class BigIntegerTestHarness {
         } catch(Exception e) {
             displaySuccessIfTrue(false);
         }
+
+    }
+
+    private static void test_compareTo() {
+        System.out.println("Testing compareTo...");
+
+        try {
+            displaySuccessIfTrue(new BigInteger("50").compareTo(new BigInteger("100")) < 0);
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("0").compareTo(new BigInteger(" 0")) == 0);
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("-10").compareTo(new BigInteger("10")) < 0);
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("-500").compareTo(new BigInteger("-1000")) > 0);
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("500").compareTo(new BigInteger("-500")) > 0);
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+    }
+
+    private static void test_valueOf() {
+        System.out.println("Testing valueOf...");
+
+        try {
+            displaySuccessIfTrue(new BigInteger("500").equals(new BigInteger("0").valueOf(500)));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("-500").equals(new BigInteger("0").valueOf(-500)));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("0").equals(new BigInteger("0").valueOf(0)));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
     }
 }
