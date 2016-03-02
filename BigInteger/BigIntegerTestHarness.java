@@ -479,6 +479,30 @@ public class BigIntegerTestHarness {
             displaySuccessIfTrue(false);
         }
 
+        try {
+            displaySuccessIfTrue(new BigInteger("999").equals(new BigInteger("1000").subtract(new BigInteger("1"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("-1001").equals(new BigInteger("-999").subtract(new BigInteger("2"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("3588081267").equals(new BigInteger("1456832094").subtract(new BigInteger("-2131249173"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
     }
 
     private static void test_compareTo() {
