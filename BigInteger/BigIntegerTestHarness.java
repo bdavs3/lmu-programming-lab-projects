@@ -13,11 +13,9 @@ public class BigIntegerTestHarness {
         test_constants();
         test_Equals();
         test_Addition();
-        
-        // You should implement:
+        test_Subtraction();
         //   test_compareTo
         //   test_valueOf
-        //   test_Subtraction
         //   test_Multiplication
         //   test_IntegerDivision
         //   test_Modulo
@@ -389,4 +387,87 @@ public class BigIntegerTestHarness {
 
     }
 
+    private static void test_Subtraction() {
+        System.out.println("Testing subtraction...");
+
+        try {
+            displaySuccessIfTrue(new BigInteger("0").equals(new BigInteger("0").subtract(new BigInteger("0"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger(" 1  ").equals(new BigInteger("4  ").subtract(new BigInteger(" +3"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("-5").equals(new BigInteger("-10").subtract(new BigInteger("-5"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("101010").equals(new BigInteger("100000").subtract(new BigInteger("-1010"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("6").equals(new BigInteger("   -4 ").subtract(new BigInteger("-10 "))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("-2532261419858").equals(new BigInteger("-2532256432534").subtract(new BigInteger("4987324"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("-12563342").equals(new BigInteger("5670").subtract(new BigInteger("12569012"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("-40").equals(new BigInteger("-20").subtract(new BigInteger("20"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("-50").equals(new BigInteger("0").subtract(new BigInteger("50"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("0").equals(new BigInteger("100").subtract(new BigInteger("100"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+    }
 }
