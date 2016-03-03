@@ -16,7 +16,7 @@ public class BigIntegerTestHarness {
         test_Subtraction();
         test_compareTo();
         test_valueOf();
-        //   test_Multiplication();
+        test_Multiplication();
         //   test_IntegerDivision();
         //   test_Modulo();
 
@@ -394,6 +394,14 @@ public class BigIntegerTestHarness {
             displaySuccessIfTrue(false);
         }
 
+        try {
+            displaySuccessIfTrue(new BigInteger("-512").equals(new BigInteger("-256").add(new BigInteger("-256"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
     }
 
     private static void test_Subtraction() {
@@ -571,6 +579,67 @@ public class BigIntegerTestHarness {
 
         try {
             displaySuccessIfTrue(new BigInteger("0").equals(new BigInteger("0").valueOf(0)));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+    }
+
+    private static void test_Multiplication() {
+        System.out.println("Testing multiplication...");
+
+        try {
+            displaySuccessIfTrue(new BigInteger("500").equals(new BigInteger("250").multiply(new BigInteger("2"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("-768").equals(new BigInteger("-256").multiply(new BigInteger("3"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("439059896325").equals(new BigInteger("-35623521").multiply(new BigInteger("-12325"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("-439059896325").equals(new BigInteger("-35623521").multiply(new BigInteger("12325"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("0").equals(new BigInteger("0").multiply(new BigInteger("12345"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("-25").equals(new BigInteger("-25").multiply(new BigInteger("1"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("30057456").equals(new BigInteger("88").multiply(new BigInteger("341562"))));
         } catch (UnsupportedOperationException uoe) {
             displayUnimplementedMethodFailure();
         } catch(Exception e) {
