@@ -300,15 +300,38 @@ public class BigInteger {
 
     public BigInteger multiply(BigInteger val) {
         BigInteger result = new BigInteger("0");
-        BigInteger firstFactor = new BigInteger(this.toString());
-        BigInteger secondFactor = new BigInteger(val.toString());
-        while (secondFactor.compareTo(new BigInteger("0")) != 0) {
-            if (secondFactor.isOdd()) {
-                result = result.add(firstFactor);
+        int smallerLength = this.bigIntArray.length < val.bigIntArray.length ? this.bigIntArray.length : val.bigIntArray.length;
+        int largerLength = this.bigIntArray.length > val.bigIntArray.length ? this.bigIntArray.length : val.bigIntArray.length;
+
+        for (int i = 0; i < smallerLength; i++) {
+            String row = "";
+
+            char[] array = new char[i];
+            for (int j = 0; j < array.length; j++) {
+                array[j] = '0';
             }
-            firstFactor = firstFactor.multiplyByTwo();
-            secondFactor = secondFactor.divideByTwo();
+            String padding = new String(array);
+            row += padding;
+
+            int carryOver = 0;
+            for (int k = 0; k < largerLength; k++) {
+                int multipliedColumn;
+                if (smallerLength == this.bigIntArray.length) {
+                    multipliedColumn = this.bigIntArray[i] * val.bigIntArray[k] + carryOver;
+                } else {
+                    multipliedColumn = val.bigIntArray[i] * this.bigIntArray[k] + carryOver;
+                }
+                carryOver = multipliedColumn / 10;
+                row += String.valueOf(multipliedColumn % 10);
+                if (k + 2 > largerLength) {
+                    row += String.valueOf(carryOver);
+                }
+            }
+            row = reverse(row);
+            result = result.add(new BigInteger(row));
         }
+
+        result.sign = this.sign * val.sign;
         return result;
     }
 
