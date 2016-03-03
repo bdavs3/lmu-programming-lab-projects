@@ -52,15 +52,14 @@ public class BigInteger {
 
     public BigInteger divideByTwo() {
         BigInteger result = new BigInteger(this.toString());
-
-        if (result.bigIntArray[0] % 2 != 0) {
+        if (result.isOdd()) {
             result.bigIntArray[0]--;
         }
 
         for (int i = 0; i < result.bigIntArray.length; i++) {
             try {
                 if (result.bigIntArray[i + 1] % 2 != 0) {
-                result.bigIntArray[i] = (result.bigIntArray[i] + 10) / 2;
+                    result.bigIntArray[i] = (result.bigIntArray[i] + 10) / 2;
                 } else {
                     result.bigIntArray[i] /= 2;
                 }
@@ -70,6 +69,15 @@ public class BigInteger {
         }
 
         return result;
+    }
+
+    public BigInteger multiplyByTwo() {
+        BigInteger result = this.add(this);
+        return result;
+    }
+
+    public boolean isOdd() {
+        return this.bigIntArray[0] % 2 != 0;
     }
 
     public BigInteger add(BigInteger val) {
@@ -98,6 +106,8 @@ public class BigInteger {
                 return this.ZERO;
             } else if (this.sign > 0 && val.sign < 0) {
                 return this.ZERO;
+            } else if (this.sign < 0 && val.sign < 0) {
+                return new BigInteger("-" + thisAbs.add(valAbs).toString());
             }
         }
 
@@ -288,12 +298,31 @@ public class BigInteger {
         return new BigInteger(arg);
     }
 
-    /*public BigInteger multiply(BigInteger val) {
-
+    public BigInteger multiply(BigInteger val) {
+        BigInteger result = new BigInteger("0");
+        BigInteger firstFactor = new BigInteger(this.toString());
+        BigInteger secondFactor = new BigInteger(val.toString());
+        while (secondFactor.compareTo(new BigInteger("0")) != 0) {
+            if (secondFactor.isOdd()) {
+                result = result.add(firstFactor);
+            }
+            firstFactor = firstFactor.multiplyByTwo();
+            secondFactor = secondFactor.divideByTwo();
+        }
+        return result;
     }
 
-    public BigInteger divide(BigInteger val) {
+    /*public BigInteger divide(BigInteger val) {
+        BigInteger result = new BigInteger(this.toString());
+        BigInteger divisor = new BigInteger(val.toString());
+        for (divisor; divisor > 1; divisor = divisor.divideByTwo()) {
+            this.divideByTwo();
+        }
 
+        if (divisor.isOdd()) {
+            divisor.multiplyByTwo();
+            result.multiplyByTwo();
+        }
     }
 
     public BigInteger remainder(BigInteger val) {
