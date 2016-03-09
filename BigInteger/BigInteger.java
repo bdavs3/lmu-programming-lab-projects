@@ -8,16 +8,7 @@ public class BigInteger {
     public BigInteger(String val) {
         String trimmedVal = val.trim();
 
-        for (int i = 0; i < trimmedVal.length(); i++) {
-            try {
-                if (!(trimmedVal.charAt(i) == '-') && !(trimmedVal.charAt(i) == '+')) {
-                    String stringOfChar = Character.toString(trimmedVal.charAt(i));
-                    Integer.parseInt(stringOfChar);
-                }
-            } catch (Exception e) {
-                throw new IllegalArgumentException();
-            }
-        }
+        trimmedVal = trimmedVal.replaceFirst("^0+(?!$)", "");
 
         if (trimmedVal.substring(0,1).equals("+")) {
             this.sign = 1;
@@ -27,6 +18,19 @@ public class BigInteger {
             trimmedVal = trimmedVal.substring(1);
         } else {
             this.sign = 1;
+        }
+
+        for (int i = 0; i < trimmedVal.length(); i++) {
+            try {
+                String stringOfChar = Character.toString(trimmedVal.charAt(i));
+                Integer.parseInt(stringOfChar);
+            } catch (Exception e) {
+                throw new IllegalArgumentException();
+            }
+        }
+
+        if (trimmedVal.equals("0")) {
+            this.sign = 0;
         }
 
         int length = trimmedVal.length();
@@ -85,30 +89,10 @@ public class BigInteger {
 
         BigInteger thisAbs = this.abs();
         BigInteger valAbs = val.abs();
-        if (this.abs().compareTo(val.abs()) < 0) {
-            if (this.sign < 0 && val.sign > 0) {
-                return val.subtract(thisAbs);
-            } else if (this.sign > 0 && val.sign < 0) {
-                return new BigInteger("-" + valAbs.subtract(this).toString());
-            } else if (this.sign < 0 && val.sign < 0) {
-                return new BigInteger("-" + thisAbs.add(valAbs).toString());
-            }
-        } else if (this.abs().compareTo(val.abs()) > 0) {
-            if (this.sign < 0 && val.sign > 0) {
-                return new BigInteger("-" + thisAbs.subtract(val).toString());
-            } else if (this.sign > 0 && val.sign < 0) {
-                return this.subtract(valAbs);
-            } else if (this.sign < 0 && val.sign < 0) {
-                return new BigInteger("-" + thisAbs.add(valAbs).toString());
-            }
-        } else {
-            if (this.sign < 0 && val.sign > 0) {
-                return this.ZERO;
-            } else if (this.sign > 0 && val.sign < 0) {
-                return this.ZERO;
-            } else if (this.sign < 0 && val.sign < 0) {
-                return new BigInteger("-" + thisAbs.add(valAbs).toString());
-            }
+        if (this.sign < 0) {
+            return val.subtract(thisAbs);
+        } else if (val.sign < 0) {
+            return this.subtract(valAbs);
         }
 
         int smallerLength = this.bigIntArray.length < val.bigIntArray.length ? this.bigIntArray.length : val.bigIntArray.length;
@@ -159,31 +143,15 @@ public class BigInteger {
 
         BigInteger thisAbs = this.abs();
         BigInteger valAbs = val.abs();
-        if (this.abs().compareTo(val.abs()) < 0) {
-            if (this.sign > 0 && val.sign > 0) {
-                return new BigInteger("-" + val.subtract(this).toString());
-            } else if (this.sign < 0 && val.sign > 0) {
-                return new BigInteger("-" + thisAbs.add(val).toString());
-            } else if (this.sign > 0 && val.sign < 0) {
-                return this.add(valAbs);
-            } else if (this.sign < 0 && val.sign < 0) {
-                return new BigInteger(valAbs.subtract(thisAbs).toString());
-            }
-        } else if (this.abs().compareTo(val.abs()) > 0) {
-            if (this.sign < 0 && val.sign > 0) {
-                return new BigInteger("-" + thisAbs.add(val).toString());
-            } else if (this.sign > 0 && val.sign < 0) {
-                return this.add(valAbs);
-            } else if (this.sign < 0 && val.sign < 0) {
-                return new BigInteger("-" + thisAbs.subtract(valAbs).toString());
-            }
-        } else {
-            if (this.sign < 0 && val.sign > 0) {
-                return new BigInteger("-" + thisAbs.add(val).toString());
-            } else if (this.sign > 0 && val.sign < 0) {
-                return new BigInteger(valAbs.add(this).toString());
+        if (val.sign < 0) {
+            return this.add(valAbs);
+        } else if (val.sign > 0) {
+            if (this.sign < 0) {
+                return new BigInteger("-" + thisAbs.add(valAbs).toString());
             } else {
-                return this.ZERO;
+                if (this.compareTo(val) < 0) {
+                    return new BigInteger("-" + val.subtract(this).toString());
+                }
             }
         }
 
@@ -236,7 +204,6 @@ public class BigInteger {
         for (int i = length - 1; i >= 0; i--) {
             result += Integer.toString(this.bigIntArray[i]);
         }
-        result = result.replaceFirst("^0+(?!$)", "");
         if (this.sign < 0) {
             result = "-" + result;
         }
@@ -299,7 +266,7 @@ public class BigInteger {
     }
 
     public BigInteger multiply(BigInteger val) {
-        BigInteger result = new BigInteger("0");
+        BigInteger result = this.ZERO;
         int smallerLength = this.bigIntArray.length < val.bigIntArray.length ? this.bigIntArray.length : val.bigIntArray.length;
         int largerLength = this.bigIntArray.length > val.bigIntArray.length ? this.bigIntArray.length : val.bigIntArray.length;
 
@@ -346,9 +313,9 @@ public class BigInteger {
             divisor.multiplyByTwo();
             result.multiplyByTwo();
         }
-    }
+    }*/
 
-    public BigInteger remainder(BigInteger val) {
+    /*public BigInteger remainder(BigInteger val) {
 
     }*/
 }
