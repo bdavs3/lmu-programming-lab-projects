@@ -9,6 +9,9 @@ public class BigIntegerTestHarness {
 
         // Feel free to add more cases to these.
         test_Constructor();
+        test_Reverse();    //
+        test_Abs();        //additonal methods that I added
+        test_isOdd();      //
         test_toString();
         test_constants();
         test_Equals();
@@ -104,6 +107,104 @@ public class BigIntegerTestHarness {
             displayUnimplementedMethodFailure();
         } catch(Exception e) {
             displaySuccessIfTrue(true);
+        }
+
+    }
+
+    private static void test_Reverse() {
+        System.out.println("Testing reverse...");
+
+        try {
+            displaySuccessIfTrue(new BigInteger("0").reverse("string").equals("gnirts"));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("0").reverse("bigInteGER").equals("REGetnIgib"));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("0").reverse("21b12k 3").equals("3 k21b12"));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("0").reverse("1337").equals("7331"));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("0").reverse("`[]m  qwqwqqw").equals("wqqwqwq  m][`"));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("0").reverse("Hello, world!").equals("!dlrow ,olleH"));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+    }
+
+    private static void test_Abs() {
+        System.out.println("Testing abs...");
+
+        try {
+            displaySuccessIfTrue(new BigInteger("-12345").abs().equals(new BigInteger("12345")));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("-20").abs().equals(new BigInteger("-20").abs()));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("250").abs().equals(new BigInteger("250")));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("-90").abs().equals(new BigInteger("90").abs()));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("-0").abs().equals(new BigInteger("0")));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
         }
 
     }
@@ -639,7 +740,10 @@ public class BigIntegerTestHarness {
         }
 
         try {
-            displaySuccessIfTrue(new BigInteger("30057456").equals(new BigInteger("88").multiply(new BigInteger("341562"))));
+            java.math.BigInteger expected = new java.math.BigInteger("123456787654323456789765432345678987654323456789")
+                    .multiply(new java.math.BigInteger("15678984321679212345678987654"));
+            displaySuccessIfTrue(expected.toString().equals(new BigInteger("123456787654323456789765432345678987654323456789")
+                    .multiply(new BigInteger("15678984321679212345678987654")).toString()));
         } catch (UnsupportedOperationException uoe) {
             displayUnimplementedMethodFailure();
         } catch(Exception e) {
