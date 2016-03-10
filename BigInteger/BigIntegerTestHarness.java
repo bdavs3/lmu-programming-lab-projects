@@ -7,7 +7,6 @@ public class BigIntegerTestHarness {
         attempts = 0;
         successes = 0;
 
-        // Feel free to add more cases to these.
         test_Constructor();
         test_Reverse();    //
         test_Abs();        //additonal methods that I added
@@ -20,8 +19,8 @@ public class BigIntegerTestHarness {
         test_compareTo();
         test_valueOf();
         test_Multiplication();
-        //   test_IntegerDivision();
-        //   test_Modulo();
+        test_Division();
+        test_Modulo();
 
         System.out.println(successes + "/" + attempts + " tests passed.");
     }
@@ -201,6 +200,43 @@ public class BigIntegerTestHarness {
 
         try {
             displaySuccessIfTrue(new BigInteger("-0").abs().equals(new BigInteger("0")));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+    }
+
+    private static void test_isOdd() {
+        System.out.println("Testing isOdd...");
+
+        try {
+            displaySuccessIfTrue(new BigInteger("49").isOdd());
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(!(new BigInteger("0").isOdd()));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(!(new BigInteger("-300").isOdd()));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(!(new BigInteger("6273794719652469449264926472647346934623649442").isOdd()));
         } catch (UnsupportedOperationException uoe) {
             displayUnimplementedMethodFailure();
         } catch(Exception e) {
@@ -744,6 +780,138 @@ public class BigIntegerTestHarness {
                     .multiply(new java.math.BigInteger("15678984321679212345678987654"));
             displaySuccessIfTrue(expected.toString().equals(new BigInteger("123456787654323456789765432345678987654323456789")
                     .multiply(new BigInteger("15678984321679212345678987654")).toString()));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+    }
+
+    private static void test_Division() {
+        System.out.println("Testing division...");
+
+        try {
+            displaySuccessIfTrue(new BigInteger("500").equals(new BigInteger("1000").divide(new BigInteger("2"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("-205").equals(new BigInteger("-12345").divide(new BigInteger("60"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("0").equals(new BigInteger("3").divide(new BigInteger("4"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            new BigInteger("3").divide(new BigInteger("0"));
+            displaySuccessIfTrue(false);
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(ArithmeticException ae) {
+            displaySuccessIfTrue(true);
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("1").equals(new BigInteger("-300").divide(new BigInteger("-300"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            java.math.BigInteger expected = new java.math.BigInteger("123456787654323456789765432345678987654323456789")
+                    .divide(new java.math.BigInteger("23147482467824"));
+            displaySuccessIfTrue(expected.toString().equals(new BigInteger("123456787654323456789765432345678987654323456789")
+                    .divide(new BigInteger("23147482467824")).toString()));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            java.math.BigInteger expected = new java.math.BigInteger("-343874623784684")
+                    .divide(new java.math.BigInteger("-3423"));
+            displaySuccessIfTrue(expected.toString().equals(new BigInteger("-343874623784684")
+                    .divide(new BigInteger("-3423")).toString()));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            java.math.BigInteger expected = new java.math.BigInteger("22837914534576529865986598658469846946847238648924")
+                    .divide(new java.math.BigInteger("5"));
+            displaySuccessIfTrue(expected.toString().equals(new BigInteger("22837914534576529865986598658469846946847238648924")
+                    .divide(new BigInteger("5")).toString()));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+    }
+
+    private static void test_Modulo() {
+        System.out.println("Testing modulo...");
+
+        try {
+            displaySuccessIfTrue(new BigInteger("1").equals(new BigInteger("21").remainder(new BigInteger("5"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("4").equals(new BigInteger("28").remainder(new BigInteger("-6"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("100").equals(new BigInteger("-700").remainder(new BigInteger("-300"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            java.math.BigInteger expected = new java.math.BigInteger("3490238904")
+                    .remainder(new java.math.BigInteger("5"));
+            displaySuccessIfTrue(expected.toString().equals(new BigInteger("3490238904")
+                    .remainder(new BigInteger("5")).toString()));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            java.math.BigInteger expected = new java.math.BigInteger("21473721")
+                    .remainder(new java.math.BigInteger("30948"));
+            displaySuccessIfTrue(expected.toString().equals(new BigInteger("21473721")
+                    .remainder(new BigInteger("30948")).toString()));
         } catch (UnsupportedOperationException uoe) {
             displayUnimplementedMethodFailure();
         } catch(Exception e) {
