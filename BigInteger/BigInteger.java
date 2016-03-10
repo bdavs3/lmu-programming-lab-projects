@@ -51,7 +51,7 @@ public class BigInteger {
     }
 
     public BigInteger abs() {
-        return this.toString().substring(0,1).equals("-") ? new BigInteger(this.toString().substring(1)) : new BigInteger(this.toString());
+        return this.sign < 0 ? new BigInteger(this.toString().substring(1)) : new BigInteger(this.toString());
     }
 
     public BigInteger divideByTwo() {
@@ -302,20 +302,36 @@ public class BigInteger {
         return result;
     }
 
-    /*public BigInteger divide(BigInteger val) {
-        BigInteger result = new BigInteger(this.toString());
-        BigInteger divisor = new BigInteger(val.toString());
-        for (divisor; divisor > 1; divisor = divisor.divideByTwo()) {
-            this.divideByTwo();
+    public BigInteger divide(BigInteger val) {
+        BigInteger thisAbs = this.abs();
+        BigInteger valAbs = val.abs();
+        if (valAbs.compareTo(thisAbs) > 0) {
+            return this.ZERO;
         }
 
-        if (divisor.isOdd()) {
-            divisor.multiplyByTwo();
-            result.multiplyByTwo();
+        if (val.equals(this.ZERO)) {
+            throw new ArithmeticException();
         }
-    }*/
 
-    /*public BigInteger remainder(BigInteger val) {
+        BigInteger result = this.ONE;
+        BigInteger intermediate = new BigInteger(valAbs.toString());
 
-    }*/
+        while (intermediate.multiply(this.TEN).compareTo(thisAbs) < 0) {
+            result = result.multiply(this.TEN);
+            intermediate = intermediate.multiply(this.TEN);
+        }
+
+        
+        result = result.add(thisAbs.subtract(intermediate).divide(valAbs));
+        result.sign = this.sign * val.sign;
+        return result;
+    }
+
+    public BigInteger remainder(BigInteger val) {
+        BigInteger result = this.divide(val);
+        result = result.multiply(val);
+        result = result.abs();
+        result = this.abs().subtract(result);
+        return result;
+    }
 }
