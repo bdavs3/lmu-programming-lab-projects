@@ -54,32 +54,6 @@ public class BigInteger {
         return this.sign < 0 ? new BigInteger(this.toString().substring(1)) : new BigInteger(this.toString());
     }
 
-    public BigInteger divideByTwo() {
-        BigInteger result = new BigInteger(this.toString());
-        if (result.isOdd()) {
-            result.bigIntArray[0]--;
-        }
-
-        for (int i = 0; i < result.bigIntArray.length; i++) {
-            try {
-                if (result.bigIntArray[i + 1] % 2 != 0) {
-                    result.bigIntArray[i] = (result.bigIntArray[i] + 10) / 2;
-                } else {
-                    result.bigIntArray[i] /= 2;
-                }
-            } catch (Exception e) {
-                result.bigIntArray[i] /= 2;
-            }
-        }
-
-        return result;
-    }
-
-    public BigInteger multiplyByTwo() {
-        BigInteger result = this.add(this);
-        return result;
-    }
-
     public boolean isOdd() {
         return this.bigIntArray[0] % 2 != 0;
     }
