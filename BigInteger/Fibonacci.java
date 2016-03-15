@@ -1,23 +1,21 @@
 public class Fibonacci {
     public static void main(String[] args) {
-        if (args.length > 1) {
+        if (args.length != 1) {
             throw new IllegalArgumentException();
         }
 
         try {
-            String.valueOf(args[0]);
+            int term = Integer.valueOf(args[0]);
+            System.out.println(calculateFibonacci(term).toString());
         } catch (Exception e) {
             throw new IllegalArgumentException();
         }
-
-        int term = Integer.valueOf(args[0]);
-        calculateFibonacci(term);
     }
 
-    public static void calculateFibonacci(int n) {
+    public static BigInteger calculateFibonacci(int term) {
         BigInteger currentVal = BigInteger.ZERO;
         BigInteger previousVal = BigInteger.ZERO;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < term; i++) {
             if (currentVal.equals(BigInteger.ZERO)) {
                 currentVal = currentVal.add(BigInteger.ONE);
             } else {
@@ -26,6 +24,6 @@ public class Fibonacci {
                 previousVal = new BigInteger(temp.toString());
             }
         }
-        System.out.println(currentVal.toString());
+        return currentVal;
     }
 }
