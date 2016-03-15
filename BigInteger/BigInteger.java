@@ -8,7 +8,7 @@ public class BigInteger {
     public BigInteger(String val) {
         String trimmedVal = val.trim();
 
-        trimmedVal = trimmedVal.replaceFirst("^0+(?!$)", "");
+        trimmedVal = trimmedVal.replaceFirst("^0+(?!$)", "");   //Regular expression for removing leading zeroes from the input
 
         if (trimmedVal.substring(0,1).equals("+")) {
             this.sign = 1;
@@ -16,28 +16,26 @@ public class BigInteger {
         } else if (trimmedVal.substring(0,1).equals("-")) {
             this.sign = -1;
             trimmedVal = trimmedVal.substring(1);
+        } else if (trimmedVal.equals("0")) {
+            this.sign = 0;
         } else {
             this.sign = 1;
         }
 
         for (int i = 0; i < trimmedVal.length(); i++) {
             try {
-                String stringOfChar = Character.toString(trimmedVal.charAt(i));
-                Integer.parseInt(stringOfChar);
-            } catch (Exception e) {
-                throw new IllegalArgumentException();
+                String stringOfChar = Character.toString(trimmedVal.charAt(i));     //Cannot simply use Character.valueOf(char)
+                Integer.parseInt(stringOfChar);                                     //because alphabet characters (e.g. a,b,c) have integer
+            } catch (Exception e) {                                                 //values (10,11,12)... so chars must be converted to strings
+                throw new IllegalArgumentException();                               //before it is determined whether they are numerical digits
             }
-        }
-
-        if (trimmedVal.equals("0")) {
-            this.sign = 0;
         }
 
         int length = trimmedVal.length();
         this.bigIntArray = new int[length];
         int position = length - 1;
         for (int i = 0; i < length; i++) {
-            this.bigIntArray[position] = Character.getNumericValue(trimmedVal.charAt(i));
+            this.bigIntArray[position] = Character.getNumericValue(trimmedVal.charAt(i));   //array stored backwards for practical purposes
             position--;
         }
     }
@@ -58,14 +56,17 @@ public class BigInteger {
         return this.bigIntArray[0] % 2 != 0;
     }
 
+    /*Here, there are two main steps in BigInteger addition... First, columns are added a number of times equal to the
+    smaller length BigInteger.  Then, the leftover columns from the larger length BigInteger are combined with any residual
+    carryOver and represented in the result.*/
     public BigInteger add(BigInteger val) {
         String result = "";
 
         BigInteger thisAbs = this.abs();
         BigInteger valAbs = val.abs();
         if (this.sign < 0) {
-            return val.subtract(thisAbs);
-        } else if (val.sign < 0) {
+            return val.subtract(thisAbs);   //This portion interacts with the subtract method in order to account for the
+        } else if (val.sign < 0) {          //various signs / magnitudes of the two BigIntegers in question
             return this.subtract(valAbs);
         }
 
@@ -73,6 +74,7 @@ public class BigInteger {
         int largerLength = this.bigIntArray.length > val.bigIntArray.length ? this.bigIntArray.length : val.bigIntArray.length;
 
         int carryOver = 0;
+
         for (int i = 0; i < smallerLength; i++) {
             int addedColumn = this.bigIntArray[i] + val.bigIntArray[i] + carryOver;
             carryOver = 0;
@@ -108,10 +110,11 @@ public class BigInteger {
             }
         }
 
-        result = reverse(result);
+        result = reverse(result);       //Because bigIntArrays are stored backwards with respect to the integer in question
         return new BigInteger(result);
     }
 
+    //Subtraction works the same as addition (see above)
     public BigInteger subtract(BigInteger val) {
         String result = "";
 
@@ -121,9 +124,9 @@ public class BigInteger {
             return this.add(valAbs);
         } else if (val.sign > 0) {
             if (this.sign < 0) {
-                return new BigInteger("-" + thisAbs.add(valAbs).toString());
-            } else {
-                if (this.compareTo(val) < 0) {
+                return new BigInteger("-" + thisAbs.add(valAbs).toString());       //Continued logic from the addition() method
+            } else {                                                               //which altogether accounts for various signs
+                if (this.compareTo(val) < 0) {                                     //and magnitudes of the two BigIntegers
                     return new BigInteger("-" + val.subtract(this).toString());
                 }
             }
@@ -176,14 +179,15 @@ public class BigInteger {
         String result = "";
         int length = this.bigIntArray.length;
         for (int i = length - 1; i >= 0; i--) {
-            result += Integer.toString(this.bigIntArray[i]);
-        }
+            result += Integer.toString(this.bigIntArray[i]);    //No need to reverse the result in this method,
+        }                                                       //because the "for" loop counts down instead of up
         if (this.sign < 0) {
             result = "-" + result;
         }
         return result;
     }
 
+    //First compares the signs, then the lengths (if needed), and finally the actually digits (rarely needed)
     public int compareTo(BigInteger val) {
         int firstLength = this.bigIntArray.length;
         int secondLength = val.bigIntArray.length;
@@ -192,40 +196,19 @@ public class BigInteger {
         } else if (this.sign > val.sign) {
             return 1;
         } else {
-            if (this.sign == 1) {
-                if (firstLength < secondLength) {
-                    return -1;
-                } else if (firstLength > secondLength) {
-                    return 1;
-                } else {
-                    for (int i = firstLength - 1; i >= 0; i--) {
-                        if (this.bigIntArray[i] < val.bigIntArray[i]) {
-                            return -1;
-                        } else if (this.bigIntArray[i] > val.bigIntArray[i]) {
-                            return 1;
-                        } else {
-                            continue;
-                        }
-                    }
-                    return 0;
-                }
+            if (firstLength < secondLength) {
+                return this.sign == 1 ? -1 : 1;
+            } else if (firstLength > secondLength) {
+                return this.sign == 1 ? 1 : -1;
             } else {
-                if (firstLength > secondLength) {
-                    return -1;
-                } else if (firstLength < secondLength) {
-                    return 1;
-                } else {
-                    for (int i = firstLength - 1; i >= 0; i--) {
-                        if (this.bigIntArray[i] > val.bigIntArray[i]) {
-                            return -1;
-                        } else if (this.bigIntArray[i] < val.bigIntArray[i]) {
-                            return 1;
-                        } else {
-                            continue;
-                        }
+                for (int i = firstLength - 1; i >= 0; i--) {
+                    if (this.bigIntArray[i] < val.bigIntArray[i]) {
+                        return this.sign == 1 ? -1 : 1;
+                    } else if (this.bigIntArray[i] > val.bigIntArray[i]) {
+                        return this.sign == 1 ? 1 : 1;
                     }
-                    return 0;
                 }
+                return 0;
             }
         }
     }
@@ -239,6 +222,11 @@ public class BigInteger {
         return new BigInteger(arg);
     }
 
+    /*This method works like traditional column-wise multiplication... the last digit of one number is multiplied by all the digits of the
+    other number, then the result is stored in a "row", which is added to the result. 
+    Then, the next digit of the first number is again multiplied by all the digits of the other number, etc.
+    Note that a "padding" of zeroes is necessary each time a new digit from the first number is being multiplied because the "row"
+    starts with the 1's place, moves on the 10's place, 100's place, etc.*/
     public BigInteger multiply(BigInteger val) {
         BigInteger result = this.ZERO;
         int smallerLength = this.bigIntArray.length < val.bigIntArray.length ? this.bigIntArray.length : val.bigIntArray.length;
@@ -284,7 +272,7 @@ public class BigInteger {
         }
 
         if (val.equals(this.ZERO)) {
-            throw new ArithmeticException();
+            throw new ArithmeticException();    //Accounts for the infinite case
         }
 
         BigInteger result = this.ONE;
