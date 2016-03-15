@@ -21,6 +21,9 @@ public class BigIntegerTestHarness {
         test_Multiplication();
         test_Division();
         test_Modulo();
+        test_GCD();
+        test_Fibonacci();
+        test_Factorial();
 
         System.out.println(successes + "/" + attempts + " tests passed.");
     }
@@ -699,7 +702,7 @@ public class BigIntegerTestHarness {
         System.out.println("Testing valueOf...");
 
         try {
-            displaySuccessIfTrue(new BigInteger("500").equals(new BigInteger("0").valueOf(500)));
+            displaySuccessIfTrue(new BigInteger("500").equals(BigInteger.valueOf(500)));
         } catch (UnsupportedOperationException uoe) {
             displayUnimplementedMethodFailure();
         } catch(Exception e) {
@@ -707,7 +710,7 @@ public class BigIntegerTestHarness {
         }
 
         try {
-            displaySuccessIfTrue(new BigInteger("-500").equals(new BigInteger("0").valueOf(-500)));
+            displaySuccessIfTrue(new BigInteger("-500").equals(BigInteger.valueOf(-500)));
         } catch (UnsupportedOperationException uoe) {
             displayUnimplementedMethodFailure();
         } catch(Exception e) {
@@ -715,7 +718,7 @@ public class BigIntegerTestHarness {
         }
 
         try {
-            displaySuccessIfTrue(new BigInteger("0").equals(new BigInteger("0").valueOf(0)));
+            displaySuccessIfTrue(new BigInteger("0").equals(BigInteger.valueOf(0)));
         } catch (UnsupportedOperationException uoe) {
             displayUnimplementedMethodFailure();
         } catch(Exception e) {
@@ -867,6 +870,17 @@ public class BigIntegerTestHarness {
             displaySuccessIfTrue(false);
         }
 
+        try {
+            java.math.BigInteger expected = new java.math.BigInteger("4271094724790175947975923759759752479479247947982479247924798247982498237498247982498")
+                    .divide(new java.math.BigInteger("249275947975975975923759875982759827598237592375901792479023759013759823759827"));
+            displaySuccessIfTrue(expected.toString().equals(new BigInteger("4271094724790175947975923759759752479479247947982479247924798247982498237498247982498")
+                    .divide(new BigInteger("249275947975975975923759875982759827598237592375901792479023759013759823759827")).toString()));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
     }
 
     private static void test_Modulo() {
@@ -912,6 +926,141 @@ public class BigIntegerTestHarness {
                     .remainder(new java.math.BigInteger("30948"));
             displaySuccessIfTrue(expected.toString().equals(new BigInteger("21473721")
                     .remainder(new BigInteger("30948")).toString()));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+    }
+
+    private static void test_GCD() {
+        System.out.println("Testing GCD...");
+
+        try {
+            displaySuccessIfTrue(new BigInteger("4").equals(GCD.calculateGCD(new BigInteger("4"), new BigInteger("8"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("50").equals(GCD.calculateGCD(new BigInteger("23320400"), new BigInteger("123050"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("5").equals(GCD.calculateGCD(new BigInteger("45"), new BigInteger("18050"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("99").equals(GCD.calculateGCD(new BigInteger("99"), new BigInteger("59400"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("99").equals(GCD.calculateGCD(new BigInteger("59400"), new BigInteger("99"))));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+    }
+
+    private static void test_Fibonacci() {
+        System.out.println("Testing Fibonacci...");
+
+        try {
+            displaySuccessIfTrue(new BigInteger("0").equals(Fibonacci.calculateFibonacci(0)));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("354224848179261915075").equals(Fibonacci.calculateFibonacci(100)));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("225851433717").equals(Fibonacci.calculateFibonacci(56)));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("6765").equals(Fibonacci.calculateFibonacci(20)));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("9969216677189303386214405760200").equals(Fibonacci.calculateFibonacci(150)));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+    }
+
+    private static void test_Factorial() {
+        System.out.println("Testing Factorial...");
+
+        try {
+            displaySuccessIfTrue(new BigInteger("30414093201713378043612608166064768844377641568960512000000000000").equals(Factorial.calculateFactorial(50)));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("1").equals(Factorial.calculateFactorial(0)));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("403291461126605635584000000").equals(Factorial.calculateFactorial(26)));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000").equals(Factorial.calculateFactorial(100)));
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("3628800").equals(Factorial.calculateFactorial(10)));
         } catch (UnsupportedOperationException uoe) {
             displayUnimplementedMethodFailure();
         } catch(Exception e) {
