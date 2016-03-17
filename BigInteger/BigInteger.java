@@ -37,14 +37,6 @@ public class BigInteger {
         }
     }
 
-    public String reverse(String str) {
-        String reversedString = "";
-        for (int i = str.length() - 1; i >= 0; i--) {
-            reversedString += str.charAt(i);
-        }
-        return reversedString;
-    }
-
     public BigInteger abs() {
         return this.sign < 0 ? new BigInteger(this.toString().substring(1)) : new BigInteger(this.toString());
     }
@@ -76,11 +68,11 @@ public class BigInteger {
             int addedColumn = this.bigIntArray[i] + val.bigIntArray[i] + carryOver;
             carryOver = 0;
             if (addedColumn <= 9) {
-                result += Integer.toString(addedColumn);
+                result = Integer.toString(addedColumn) + result;
             } else {
-                result += Integer.toString(addedColumn - 10);
+                result = Integer.toString(addedColumn - 10) + result;
                 if (i + 2 > largerLength) {
-                    result += "1";
+                    result = "1" + result;
                 } else {
                     carryOver++;
                 }
@@ -96,18 +88,17 @@ public class BigInteger {
             }
             carryOver = 0;
             if (addedColumn <= 9) {
-                result += Integer.toString(addedColumn);
+                result = Integer.toString(addedColumn) + result;
             } else {
-                result += Integer.toString(addedColumn - 10);
+                result = Integer.toString(addedColumn - 10) + result;
                 if (i + 2 > largerLength) {
-                    result += "1";
+                    result = "1" + result;
                 } else {
                     carryOver++;
                 }
             }
         }
 
-        result = reverse(result);       //Because bigIntArrays are stored backwards with respect to the integer in question
         return new BigInteger(result);
     }
 
@@ -137,9 +128,9 @@ public class BigInteger {
             int subtractedColumn = this.bigIntArray[i] - val.bigIntArray[i] - carryOver;
             carryOver = 0;
             if (subtractedColumn >= 0) {
-                result += Integer.toString(subtractedColumn);
+                result = Integer.toString(subtractedColumn) + result;
             } else if (subtractedColumn < 0) {
-                result += Integer.toString(10 + subtractedColumn);
+                result = Integer.toString(10 + subtractedColumn) + result;
                 carryOver++;
             }
         }
@@ -153,11 +144,11 @@ public class BigInteger {
             }
             carryOver = 0;
             if (addedColumn >= 0) {
-                result += Integer.toString(addedColumn);
+                result = Integer.toString(addedColumn) + result;
             } else {
-                result += Integer.toString(addedColumn + 10);
+                result = Integer.toString(addedColumn + 10) + result;
                 if (i + 2 > largerLength) {
-                    result += "1";
+                    result = "1" + result;
                 } else {
                     carryOver++;
                 }
@@ -165,10 +156,9 @@ public class BigInteger {
         }
 
         if (this.compareTo(val) < 0) {
-            result += "-";
+            result = "-" + result;
         }
 
-        result = reverse(result);
         return new BigInteger(result);
     }
 
@@ -176,8 +166,8 @@ public class BigInteger {
         String result = "";
         int length = this.bigIntArray.length;
         for (int i = length - 1; i >= 0; i--) {
-            result += Integer.toString(this.bigIntArray[i]);    //No need to reverse the result in this method,
-        }                                                       //because the "for" loop counts down instead of up
+            result += Integer.toString(this.bigIntArray[i]);
+        }
         if (this.sign < 0) {
             result = "-" + result;
         }
@@ -237,7 +227,7 @@ public class BigInteger {
                 array[j] = '0';
             }
             String padding = new String(array);
-            row += padding;
+            row = padding + row;
 
             int carryOver = 0;
             for (int k = 0; k < largerLength; k++) {
@@ -248,12 +238,11 @@ public class BigInteger {
                     multipliedColumn = val.bigIntArray[i] * this.bigIntArray[k] + carryOver;
                 }
                 carryOver = multipliedColumn / 10;
-                row += String.valueOf(multipliedColumn % 10);
+                row = String.valueOf(multipliedColumn % 10) + row;
                 if (k + 2 > largerLength) {
-                    row += String.valueOf(carryOver);
+                    row = String.valueOf(carryOver) + row;
                 }
             }
-            row = reverse(row);
             result = result.add(new BigInteger(row));
         }
 
