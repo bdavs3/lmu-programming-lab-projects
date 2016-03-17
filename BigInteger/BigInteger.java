@@ -22,21 +22,18 @@ public class BigInteger {
             this.sign = 1;
         }
 
-        for (int i = 0; i < trimmedVal.length(); i++) {
-            try {
-                String stringOfChar = Character.toString(trimmedVal.charAt(i));     //Cannot simply use Character.valueOf(char)
-                Integer.parseInt(stringOfChar);                                     //because alphabet characters (e.g. a,b,c) have integer
-            } catch (Exception e) {                                                 //values (10,11,12)... so chars must be converted to strings
-                throw new IllegalArgumentException();                               //before it is determined whether they are numerical digits
-            }
-        }
-
         int length = trimmedVal.length();
         this.bigIntArray = new int[length];
         int position = length - 1;
         for (int i = 0; i < length; i++) {
-            this.bigIntArray[position] = Character.getNumericValue(trimmedVal.charAt(i));   //array stored backwards for practical purposes
-            position--;
+            try {
+                String stringOfChar = Character.toString(trimmedVal.charAt(i));                 //Cannot simply use Character.getNumericValue(char)
+                Integer.parseInt(stringOfChar);                                                 //because alphabet characters (e.g. a,b,c) have integer
+                this.bigIntArray[position] = Character.getNumericValue(trimmedVal.charAt(i));   //values (10,11,12)... so chars must be convertered
+                position--;                                                                     //before it is determined whether they are numerical digits
+            } catch (Exception e) {
+                throw new IllegalArgumentException();
+            }
         }
     }
 
