@@ -21,9 +21,9 @@ public class BigIntegerTestHarness {
         test_Multiplication();
         test_Division();
         test_Modulo();
-        test_GCD();
-        test_Fibonacci();
-        test_Factorial();
+        test_GCD();        //
+        test_Fibonacci();  //tests the output of the additional programs
+        test_Factorial();  //
 
         System.out.println(successes + "/" + attempts + " tests passed.");
     }
