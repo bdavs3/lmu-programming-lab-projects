@@ -8,7 +8,6 @@ public class BigIntegerTestHarness {
         successes = 0;
 
         test_Constructor();
-        test_Reverse();    //
         test_Abs();        //additonal methods that I added
         test_isOdd();      //
         test_toString();
@@ -109,59 +108,6 @@ public class BigIntegerTestHarness {
             displayUnimplementedMethodFailure();
         } catch(Exception e) {
             displaySuccessIfTrue(true);
-        }
-
-    }
-
-    private static void test_Reverse() {
-        System.out.println("Testing reverse...");
-
-        try {
-            displaySuccessIfTrue(new BigInteger("0").reverse("string").equals("gnirts"));
-        } catch (UnsupportedOperationException uoe) {
-            displayUnimplementedMethodFailure();
-        } catch(Exception e) {
-            displaySuccessIfTrue(false);
-        }
-
-        try {
-            displaySuccessIfTrue(new BigInteger("0").reverse("bigInteGER").equals("REGetnIgib"));
-        } catch (UnsupportedOperationException uoe) {
-            displayUnimplementedMethodFailure();
-        } catch(Exception e) {
-            displaySuccessIfTrue(false);
-        }
-
-        try {
-            displaySuccessIfTrue(new BigInteger("0").reverse("21b12k 3").equals("3 k21b12"));
-        } catch (UnsupportedOperationException uoe) {
-            displayUnimplementedMethodFailure();
-        } catch(Exception e) {
-            displaySuccessIfTrue(false);
-        }
-
-        try {
-            displaySuccessIfTrue(new BigInteger("0").reverse("1337").equals("7331"));
-        } catch (UnsupportedOperationException uoe) {
-            displayUnimplementedMethodFailure();
-        } catch(Exception e) {
-            displaySuccessIfTrue(false);
-        }
-
-        try {
-            displaySuccessIfTrue(new BigInteger("0").reverse("`[]m  qwqwqqw").equals("wqqwqwq  m][`"));
-        } catch (UnsupportedOperationException uoe) {
-            displayUnimplementedMethodFailure();
-        } catch(Exception e) {
-            displaySuccessIfTrue(false);
-        }
-
-        try {
-            displaySuccessIfTrue(new BigInteger("0").reverse("Hello, world!").equals("!dlrow ,olleH"));
-        } catch (UnsupportedOperationException uoe) {
-            displayUnimplementedMethodFailure();
-        } catch(Exception e) {
-            displaySuccessIfTrue(false);
         }
 
     }
