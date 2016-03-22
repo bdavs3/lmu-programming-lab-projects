@@ -16,10 +16,12 @@ public class BigInteger {
         } else if (trimmedVal.substring(0,1).equals("-")) {
             this.sign = -1;
             trimmedVal = trimmedVal.substring(1);
-        } else if (trimmedVal.equals("0")) {
-            this.sign = 0;
         } else {
             this.sign = 1;
+        }
+
+        if (trimmedVal.equals("0")) {
+            this.sign = 0;
         }
 
         int length = trimmedVal.length();
@@ -28,8 +30,8 @@ public class BigInteger {
         for (int i = 0; i < length; i++) {
             try {
                 String stringOfChar = Character.toString(trimmedVal.charAt(i));                 //Cannot simply use Character.getNumericValue(char)
-                Integer.parseInt(stringOfChar);                                                 //because alphabet characters (e.g. a,b,c) have integer
-                this.bigIntArray[position] = Character.getNumericValue(trimmedVal.charAt(i));   //values (10,11,12)... so chars must be convertered
+                int intOfString = Integer.parseInt(stringOfChar);                               //because alphabet characters (e.g. a,b,c) have integer
+                this.bigIntArray[position] = intOfString;                                       //values (10,11,12)... so chars must be convertered
                 position--;                                                                     //before it is determined whether they are numerical digits
             } catch (Exception e) {
                 throw new IllegalArgumentException();
@@ -39,10 +41,6 @@ public class BigInteger {
 
     public BigInteger abs() {
         return this.sign < 0 ? new BigInteger(this.toString().substring(1)) : new BigInteger(this.toString());
-    }
-
-    public boolean isOdd() {
-        return this.bigIntArray[0] % 2 != 0;
     }
 
     /*Here, there are two main steps in BigInteger addition... First, columns are added a number of times equal to the
@@ -55,7 +53,7 @@ public class BigInteger {
         BigInteger valAbs = val.abs();
         if (this.sign < 0) {
             return val.subtract(thisAbs);   //This portion interacts with the subtract method in order to account for the
-        } else if (val.sign < 0) {          //various signs / magnitudes of the two BigIntegers in question
+        } else if (val.sign < 0) {          //various signs and magnitudes of the two BigIntegers in question
             return this.subtract(valAbs);
         }
 
