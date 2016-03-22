@@ -15,7 +15,7 @@ public class Factorial {
     public static BigInteger calculateFactorial(int n) {
         BigInteger result = n == 0 ? BigInteger.ONE : BigInteger.valueOf(n);
         for (int i = n; i > 1; i--) {
-            result = result.multiply(new BigInteger("0").valueOf(i - 1));
+            result = result.multiply(BigInteger.valueOf(i - 1));
         }
         return result;
     }
