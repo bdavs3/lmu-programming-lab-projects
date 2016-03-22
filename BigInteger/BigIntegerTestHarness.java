@@ -8,8 +8,7 @@ public class BigIntegerTestHarness {
         successes = 0;
 
         test_Constructor();
-        test_Abs();        //additonal methods that I added
-        test_isOdd();      //
+        test_Abs();        //additonal method that I added
         test_toString();
         test_constants();
         test_Equals();
@@ -149,43 +148,6 @@ public class BigIntegerTestHarness {
 
         try {
             displaySuccessIfTrue(new BigInteger("-0").abs().equals(new BigInteger("0")));
-        } catch (UnsupportedOperationException uoe) {
-            displayUnimplementedMethodFailure();
-        } catch(Exception e) {
-            displaySuccessIfTrue(false);
-        }
-
-    }
-
-    private static void test_isOdd() {
-        System.out.println("Testing isOdd...");
-
-        try {
-            displaySuccessIfTrue(new BigInteger("49").isOdd());
-        } catch (UnsupportedOperationException uoe) {
-            displayUnimplementedMethodFailure();
-        } catch(Exception e) {
-            displaySuccessIfTrue(false);
-        }
-
-        try {
-            displaySuccessIfTrue(!(new BigInteger("0").isOdd()));
-        } catch (UnsupportedOperationException uoe) {
-            displayUnimplementedMethodFailure();
-        } catch(Exception e) {
-            displaySuccessIfTrue(false);
-        }
-
-        try {
-            displaySuccessIfTrue(!(new BigInteger("-300").isOdd()));
-        } catch (UnsupportedOperationException uoe) {
-            displayUnimplementedMethodFailure();
-        } catch(Exception e) {
-            displaySuccessIfTrue(false);
-        }
-
-        try {
-            displaySuccessIfTrue(!(new BigInteger("6273794719652469449264926472647346934623649442").isOdd()));
         } catch (UnsupportedOperationException uoe) {
             displayUnimplementedMethodFailure();
         } catch(Exception e) {
@@ -636,6 +598,14 @@ public class BigIntegerTestHarness {
 
         try {
             displaySuccessIfTrue(new BigInteger("500").compareTo(new BigInteger("-500")) > 0);
+        } catch (UnsupportedOperationException uoe) {
+            displayUnimplementedMethodFailure();
+        } catch(Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            displaySuccessIfTrue(new BigInteger("-0").compareTo(new BigInteger("0")) == 0);
         } catch (UnsupportedOperationException uoe) {
             displayUnimplementedMethodFailure();
         } catch(Exception e) {
