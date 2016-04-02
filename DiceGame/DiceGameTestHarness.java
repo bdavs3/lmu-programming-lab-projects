@@ -1,5 +1,3 @@
-package game;
-
 public class DiceGameTestHarness {
 
     private static int attempts = 0;
