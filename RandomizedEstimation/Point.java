@@ -10,8 +10,16 @@ public class Point {
         return ("(" + this.xCoord + "," + this.yCoord + ")");
     }
 
+    public double setXCoord(double x) {
+        this.xCoord = x;
+    }
+
     public double getXCoord() {
         return this.xCoord;
+    }
+
+    public void setYCoord(double y) {
+        this.yCoord = y;
     }
 
     public double getYCoord() {
