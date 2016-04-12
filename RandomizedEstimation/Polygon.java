@@ -6,6 +6,8 @@ public class Polygon extends Shape {
         this.points = p;
     }
 
+    //maxBound() and minBound() are a little more complex than the parallel methods for Triangle and Circle, because polygon involves an
+    //array of points, not just a fixed number of points or other parameters
     @Override
     public Point maxBound() {
         double maxX = points[0].getXCoord();
@@ -38,6 +40,7 @@ public class Polygon extends Shape {
         return new Point(minX, minY);
     }
 
+    //Uses the Ray Casting Algorithm for determining whether a point is inside a convex polygon
     public boolean insideShape(Point p) {
         boolean inside = false;
 
