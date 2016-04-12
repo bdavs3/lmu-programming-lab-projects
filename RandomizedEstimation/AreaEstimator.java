@@ -1,13 +1,8 @@
 public class AreaEstimator {
-    private String errorMessage = "For a circle, enter 'circle (centerX) (centerY) (radius)', for a triangle, enter 'triangle (p1x) (p1y) (p2x) (p2y) (p3x) (p3y)', and for a convex polygon, enter 'polygon (number_of_sides) (p1x) (p1y) (p2x) (p2y)...' in clockwise order";
+    public static String errorMessage = "For a circle, enter 'circle (centerX) (centerY) (radius)', for a triangle, enter 'triangle (p1x) (p1y) (p2x) (p2y) (p3x) (p3y)', and for a convex polygon, enter 'polygon (number_of_sides) (p1x) (p1y) (p2x) (p2y)...' in clockwise order";
     private Shape[] shapes;
     private int dartsInIntersection = 0, dartsInUnion = 0, dartsInNonIntersection = 0;
     private final int ONE_MILLION = 1000000, PARAMETERS_FOR_CIRCLE = 4, PARAMETERS_FOR_TRIANGLE = 7;
-
-    //Necessary for the purposes of invoking a method which tests input and determines how long the shapes array will be
-    public AreaEstimator() {
-
-    }
 
     //Sorts the shapes neatly into an array with a length that has been determined by checkInputAndLength()
     //...Also checks for illegal arguments involving the parameter / characteristics of the different shapes
@@ -54,39 +49,6 @@ public class AreaEstimator {
             }
         }
 
-    }
-
-    //Simply returns what the length of the shape array should be... This is difficult because each shape
-    //requires a different number of parameters.  As the length it calculated, the program checks for
-    //illegal arguments
-    public int checkInputAndLength(String[] a) {
-        int interval;
-        int length = 0;
-
-        if (a.length < PARAMETERS_FOR_CIRCLE) {                         //least amount of parameters possible with this program
-            throw new IllegalArgumentException(this.errorMessage);
-        }
-
-        for (int i = 0; i < a.length; i += interval) {
-            if (a[i].equals("circle")) {
-                length++;
-                interval = PARAMETERS_FOR_CIRCLE;
-            } else if (a[i].equals("triangle")) {
-                length++;
-                interval = PARAMETERS_FOR_TRIANGLE;
-            } else if (a[i].equals("polygon")) {
-                length++;
-                try {
-                    interval = (2 * Integer.parseInt(a[i + 1])) + 2;
-                } catch (Exception e) {
-                    throw new IllegalArgumentException(this.errorMessage);
-                }
-            } else {
-                throw new IllegalArgumentException(this.errorMessage);
-            }
-        }
-
-        return length;
     }
 
     public Point determineLowerBound() {
@@ -207,8 +169,8 @@ public class AreaEstimator {
     }
 
     public static void main(String[] args) {
-        AreaEstimator input = new AreaEstimator();
-        int length = input.checkInputAndLength(args);
+        InputSorter input = new InputSorter(args);
+        int length = input.getLength();
         AreaEstimator ae = new AreaEstimator(args, length);
         ae.displayBoundingBox();
         ae.throwDarts();
