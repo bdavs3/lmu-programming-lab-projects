@@ -8,33 +8,22 @@ public class Triangle extends Shape {
         this.c = p3;
     }
 
+    //Used in insideShape()
     public Point centroid() {
-        return new Point((this.getA().getXCoord() + this.getB().getXCoord() + this.getC().getXCoord()) / 3, (this.getA().getYCoord() + this.getB().getYCoord() + this.getC().getYCoord()) / 3);
+        return new Point((this.a.getXCoord() + this.b.getXCoord() + this.c.getXCoord()) / 3, (this.a.getYCoord() + this.b.getYCoord() + this.c.getYCoord()) / 3);
     }
 
     public boolean sameSide(Point p1, Point p2, Point a, Point b) {
-        Vector ab = Point.vectorBetween(a, b);
-        Vector p1a = Point.vectorBetween(p1, a);
-        Vector p2a = Point.vectorBetween(p2, a);
-        Vector cp1 = Vector.crossProduct(ab, p1a);
-        Vector cp2 = Vector.crossProduct(ab, p2a);
+        Vector a_b = Point.vectorBetween(a, b);
+        Vector p1_a = Point.vectorBetween(p1, a);
+        Vector p2_a = Point.vectorBetween(p2, a);
+        Vector cp1 = Vector.crossProduct(a_b, p1_a);
+        Vector cp2 = Vector.crossProduct(a_b, p2_a);
         if (Vector.dotProduct(cp1, cp2) >= 0) {
             return true;
         } else {
             return false;
         }
-    }
-
-    public Point getA() {
-        return this.a;
-    }
-
-    public Point getB() {
-        return this.b;
-    }
-
-    public Point getC() {
-        return this.c;
     }
 
     @Override
@@ -51,9 +40,11 @@ public class Triangle extends Shape {
         return new Point(minX, minY);
     }
 
+    //To determine whether a point is inside the triangle, the method tests the relationship between the cross
+    //product of the point in question and the cross product of a point known to be inside the triangle e.g. the centroid
     @Override
     public boolean insideShape(Point p) {
-        if (sameSide(p, centroid(), this.a, this.b) && sameSide(p, centroid(), this.b, this.c) && sameSide(p, centroid(), this.a, this.c)) {
+        if (sameSide(p, this.centroid(), this.a, this.b) && sameSide(p, this.centroid(), this.b, this.c) && sameSide(p, this.centroid(), this.a, this.c)) {
             return true;
         } else {
             return false;
