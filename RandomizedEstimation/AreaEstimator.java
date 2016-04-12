@@ -1,5 +1,8 @@
 public class AreaEstimator {
+    private String errorMessage = "For a circle, enter 'circle (centerX) (centerY) (radius)' and for a triangle, enter 'triangle (p1x) (p1y) (p2x) (p2y) (p3x) (p3y)'";
     private Shape[] shapes;
+    private double[] shapeAreas;
+    private final int ONE_MILLION = 1000000;
     private int length = 0, placeInArray = 0, interval;
     private Point lowerBound, upperBound;
 
@@ -8,6 +11,10 @@ public class AreaEstimator {
     }
 
     public void checkInput(String[] a) {
+        if (a.length < 4) {
+            throw new IllegalArgumentException(this.errorMessage);
+        }
+
         for (int i = 0; i < a.length; i += interval) {
             if (a[i].equals("circle")) {
                 this.length++;
@@ -16,7 +23,7 @@ public class AreaEstimator {
                 this.length++;
                 this.interval = 7;
             } else {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException(this.errorMessage);
             }
         }
     }
@@ -33,7 +40,7 @@ public class AreaEstimator {
                     this.placeInArray++;
                     this.interval = 4;
                 } catch (Exception e) {
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException(this.errorMessage);
                 }
             } else {
                 try {
@@ -44,7 +51,7 @@ public class AreaEstimator {
                     this.placeInArray++;
                     this.interval = 7;
                 } catch (Exception e) {
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException(this.errorMessage);
                 }
             }
         }
@@ -85,16 +92,49 @@ public class AreaEstimator {
         this.upperBound = new Point(maxX, maxY);
     }
 
+    public double areaOfBound() {
+        double base = this.upperBound.getXCoord() - this.lowerBound.getXCoord();
+        double height = this.upperBound.getYCoord() - this.lowerBound.getYCoord();
+
+        return base * height;
+    }
+
     public void throwDarts() {
-        System.out.println("start");
-        for (int i = 0; i < 1000000; i++) {
+        for (int i = 0; i < ONE_MILLION; i++) {
             Point dartThrow = Point.random(this.lowerBound, this.upperBound);
             for (Shape s : this.shapes) {
-                System.out.println(dartThrow.getXCoord() + " " + dartThrow.getYCoord() + (s.insideShape(dartThrow) ? " in" : " out"));
-                System.out.println(i);
+                if (s.insideShape(dartThrow)) {
+                    s.incrementNumberOfDarts();
+                }
             }
         }
-        System.out.println("end");
+    }
+
+    public void calculateShapeAreas() {
+        shapeAreas = new double[this.length];
+        int i = 0;
+        for (Shape s : this.shapes) {
+            shapeAreas[i] = (s.getNumberOfDarts() / (double) ONE_MILLION) * this.areaOfBound();
+            System.out.println(shapeAreas[i]);
+            i++;
+        }
+    }
+
+    public void output() {
+        for (int i = 0; i < ONE_MILLION; i++) {
+            Point dartThrow = Point.random(this.lowerBound, this.upperBound);
+            System.out.println("start");
+            for (Shape s : this.shapes) {
+                inner:
+                if (s.insideShape(dartThrow)) {
+                    System.out.println(dartThrow.getXCoord() + " " + dartThrow.getYCoord() + " in");
+                    break inner;
+                } else {
+                    System.out.println(dartThrow.getXCoord() + " " + dartThrow.getYCoord() + " out");
+                }
+            }
+            System.out.println("end");
+        }
     }
 
     public static void main(String[] args) {
@@ -104,5 +144,7 @@ public class AreaEstimator {
         ae.determineLowerBound();
         ae.determineUpperBound();
         ae.throwDarts();
+        ae.calculateShapeAreas();
+        ae.output();
     }
 }
