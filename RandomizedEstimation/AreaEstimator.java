@@ -119,7 +119,7 @@ public class AreaEstimator {
     }
 
     public void displayShapeAreas(int l) {
-        double [] shapeAreas = new double[l];
+        double[] shapeAreas = new double[l];
         int i = 0;
         for (Shape s : this.shapes) {
             shapeAreas[i] = this.areaWithDarts(s.getNumberOfDarts());
@@ -176,5 +176,22 @@ public class AreaEstimator {
         ae.throwDarts();
         ae.displayShapeAreas(length);
         ae.output();
+    }
+
+    //The following getters are used for testing purposes
+    public Shape[] getShapes() {
+        return this.shapes;
+    }
+
+    public int getDartsInIntersection() {
+        return this.dartsInIntersection;
+    }
+
+    public int getDartsInUnion() {
+        return this.dartsInUnion;
+    }
+
+    public int getDartsInNonIntersection() {
+        return this.dartsInNonIntersection;
     }
 }
