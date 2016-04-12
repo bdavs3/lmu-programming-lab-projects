@@ -1,6 +1,5 @@
 public class Polygon extends Shape {
     private int numberOfDarts = 0;
-    private static double EPS = 10E-20;
     private Point[] points;
 
     public Polygon(Point[] p) {
@@ -44,36 +43,40 @@ public class Polygon extends Shape {
 
         double mEdge;
         double mPoint;
-        for (int i = 0; i < points.length - 1; i++) {
-            if (points[i].getYCoord() > points[i + 1].getYCoord()) {
-                Point temp = points[i];
-                points[i] = points[i + 1];
-                points[i + 1] = temp;
+        for (int i = 0; i < points.length; i++) {
+            Point a = points[i];
+            Point b;
+            if (i < points.length - 1) {
+                b = points[i + 1];
+            } else {
+                b = points[0];
             }
 
-            if (p.getYCoord() == points[i].getYCoord() || p.getYCoord() == points[i + 1].getYCoord()) {
-                p.setYCoord(p.getYCoord() + EPS);
+            if (a.getYCoord() > b.getYCoord()) {
+                Point temp = a;
+                a = b;
+                b = temp;
             }
 
-            if (p.getYCoord() > points[i + 1].getYCoord() || p.getYCoord() < points[i].getYCoord() || p.getXCoord() > Math.max(points[i].getXCoord(), points[i + 1].getXCoord())) {
+            if (p.getYCoord() < a.getYCoord() || p.getYCoord() > b.getYCoord() || p.getXCoord() > Math.max(a.getXCoord(), b.getXCoord())) {
                 continue;
             }
 
-            if (p.getXCoord() < Math.min(points[i].getXCoord(), points[i + 1].getXCoord())) {
+            if (p.getXCoord() < Math.min(a.getXCoord(), b.getXCoord())) {
                 inside = !inside;
                 continue;
             }
 
             try {
-                mEdge = (points[i + 1].getYCoord() - points[i].getYCoord()) / (points[i + 1].getXCoord() - points[i].getXCoord());
+                mEdge = (b.getYCoord() - a.getYCoord()) / (b.getXCoord() - a.getXCoord());
             } catch (Exception e) {
-                throw new ArithmeticException();
+                mEdge = Double.MAX_VALUE;
             }
 
             try {
-                mPoint = (p.getYCoord() - points[i].getYCoord()) / (p.getXCoord() - points[i].getXCoord());
+                mPoint = (p.getYCoord() - a.getYCoord()) / (p.getXCoord() - a.getXCoord());
             } catch (Exception e) {
-                throw new ArithmeticException();
+                mPoint = Double.MAX_VALUE;
             }
 
             if (mPoint >= mEdge) {
