@@ -25,4 +25,11 @@ public class Point {
     public static Vector vectorBetween(Point p1, Point p2) {
         return new Vector(p1.getXCoord() - p2.getXCoord(), p1.getYCoord() - p2.getYCoord());
     }
+
+    public static Point random(Point min, Point max) {
+        double randX = Math.random() * (max.getXCoord() - min.getXCoord()) + min.getXCoord();
+        double randY = Math.random() * (max.getYCoord() - min.getYCoord()) + min.getYCoord();
+
+        return new Point(randX, randY);
+    }
 }
