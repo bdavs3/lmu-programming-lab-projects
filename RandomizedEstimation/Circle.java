@@ -1,4 +1,5 @@
 public class Circle extends Shape {
+    private int numberOfDarts = 0;
     private double radius;
     private Point center;
 
@@ -20,5 +21,15 @@ public class Circle extends Shape {
     @Override
     public boolean insideShape(Point p) {
         return center.distance(p) <= this.radius;
+    }
+
+    @Override
+    public void incrementNumberOfDarts() {
+        this.numberOfDarts++;
+    }
+
+    @Override
+    public int getNumberOfDarts() {
+        return this.numberOfDarts;
     }
 }
