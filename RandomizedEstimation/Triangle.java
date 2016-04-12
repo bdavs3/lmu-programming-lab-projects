@@ -1,5 +1,6 @@
 public class Triangle extends Shape {
     private Point a, b, c;
+    private int numberOfDarts = 0;
 
     public Triangle(Point p1, Point p2, Point p3) {
         this.a = p1;
@@ -57,5 +58,15 @@ public class Triangle extends Shape {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void incrementNumberOfDarts() {
+        this.numberOfDarts++;
+    }
+
+    @Override
+    public int getNumberOfDarts() {
+        return this.numberOfDarts;
     }
 }
