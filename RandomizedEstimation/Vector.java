@@ -13,7 +13,7 @@ public class Vector {
     }
 
     public static Vector crossProduct(Vector v1, Vector v2) {
-        return new Vector(0, 0, v1.getX() * v2.getY() - v1.getY() * v2.getX());
+        return new Vector(0, 0, v1.x * v2.y - v1.y * v2.x);
     }
 
     public static double dotProduct(Vector v1, Vector v2) {
@@ -24,5 +24,18 @@ public class Vector {
             double product = v1.x * v2.x + v1.y * v2.y;
             return product;
         }
+    }
+
+    //Getters used for testing purposes
+    public double getX() {
+        return this.x;
+    }
+
+    public double getY() {
+        return this.y;
+    }
+
+    public double getZ() {
+        return this.z;
     }
 }
