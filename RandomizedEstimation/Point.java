@@ -6,11 +6,12 @@ public class Point {
         this.yCoord = y;
     }
 
+    //Used in the output stream
     public String toString() {
-        return ("(" + this.xCoord + "," + this.yCoord + ")");
+        return (this.xCoord + " " + this.yCoord);
     }
 
-    public double setXCoord(double x) {
+    public void setXCoord(double x) {
         this.xCoord = x;
     }
 
@@ -34,6 +35,7 @@ public class Point {
         return new Vector(p1.getXCoord() - p2.getXCoord(), p1.getYCoord() - p2.getYCoord());
     }
 
+    //e.g. a dart throw
     public static Point random(Point min, Point max) {
         double randX = Math.random() * (max.getXCoord() - min.getXCoord()) + min.getXCoord();
         double randY = Math.random() * (max.getYCoord() - min.getYCoord()) + min.getYCoord();
