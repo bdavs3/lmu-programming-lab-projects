@@ -109,6 +109,9 @@ public class Tuple {
      * @return the element-wise sum of this and t
      */
     public Tuple add(Tuple t) {
+        if (this.equals(Tuple.IMPOSSIBLE) || t.equals(Tuple.IMPOSSIBLE)) {
+            return Tuple.IMPOSSIBLE;
+        }
 
         if (length() != t.length()) {
             throw new IllegalArgumentException();
@@ -182,7 +185,7 @@ public class Tuple {
 
         if (i >= length()) {
             throw new IllegalArgumentException();
-        }    
+        }
     }
 
 }
