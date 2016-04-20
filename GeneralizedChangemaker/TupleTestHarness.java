@@ -139,6 +139,21 @@ public class TupleTestHarness {
             e.printStackTrace();
             displayFailure();
         }
+
+        try {
+            Tuple t0 = new Tuple(new int[] { 1, 0, 0 });
+            Tuple t1 = Tuple.IMPOSSIBLE;
+            Tuple t2 = new Tuple(new int[] { 2, 5, -1 });
+            Tuple sum1 = t0.add(t1);
+            Tuple sum2 = t1.add(t2);
+            Tuple sum3 = t1.add(t1);
+            displaySuccessIfTrue(t1.equals(sum1) &&
+                    t1.equals(sum2) &&
+                    t1.equals(sum3));
+        } catch (Exception e) {
+            e.printStackTrace();
+            displayFailure();
+        }
     }
 
     public static void test_equals() {
