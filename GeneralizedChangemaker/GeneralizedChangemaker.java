@@ -70,17 +70,26 @@ public class GeneralizedChangemaker {
                 } else if (column < denomination) {
                     result[row][column] = Tuple.IMPOSSIBLE;
                 } else {
-                    try {
-                        int[] tupleInsert = new int[dLength];
-                        tupleInsert[row] = 1;
-                        Tuple currentTuple = new Tuple(tupleInsert);
-                        result[row][column] = currentTuple.add(result[row][column - denomination]);
-                    } catch (Exception e) {
-                        result[row][column] = Tuple.IMPOSSIBLE;
-                    }
+                    Tuple currentTuple = new Tuple(dLength);
+                    currentTuple.setElement(row, 1);
+                    result[row][column] = currentTuple.add(result[row][column - denomination]);
+                }
+
+                boolean impossibleAbove = true;
+                boolean impossibleCurrent = true;
+                if (row > 0) {
+                    impossibleAbove = result[row - 1][column].isImpossible();
+                    impossibleCurrent = result[row][column].isImpossible();
+                }
+                if (row > 0 && !impossibleAbove && !impossibleCurrent && (result[row - 1][column].total() < result[row][column].total())) {
+                    result[row][column] = result[row - 1][column];
+                } else if (row > 0 && !impossibleAbove && impossibleCurrent) {
+                    result[row][column] = result[row - 1][column];
                 }
             }
         }
+
+        return result[dLength - 1][amount];
     }
 
     private static void printUsage() {
