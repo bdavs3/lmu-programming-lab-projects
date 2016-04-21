@@ -59,33 +59,29 @@ public class GeneralizedChangemaker {
     }
 
     public static Tuple makeChangeWithDynamicProgramming(int[] denominations, int amount) {
+        final int FIRST_ROW = 0, LAST_ROW = denominations.length, FIRST_COLUMN = 0, LAST_COLUMN = amount, ONE_COIN = 1;
+
         Tuple[][] result = new Tuple[denominations.length][amount + 1];
-        int dLength = denominations.length;
 
-        for (int row = 0; row < dLength; row++) {
-            for (int column = 0; column <= amount; column++) {
+        for (int row = FIRST_ROW; row < LAST_ROW; row++) {
+            result[row][FIRST_COLUMN] = new Tuple(denominations.length);
+
+            for (int column = FIRST_COLUMN + 1; column <= LAST_COLUMN; column++) {
                 int denomination = denominations[row];
-                if (column == 0) {
-                    result[row][column] = new Tuple(dLength);
-                } else if (column < denomination) {
-                    result[row][column] = Tuple.IMPOSSIBLE;
+                if (column < denomination) {
+                    result[row][column] = row > FIRST_ROW ? result[row - 1][column] : Tuple.IMPOSSIBLE;
                 } else {
-                    Tuple currentTuple = new Tuple(dLength);
-                    currentTuple.setElement(row, 1);
+                    Tuple currentTuple = new Tuple(denominations.length);
+                    currentTuple.setElement(row, ONE_COIN);
                     result[row][column] = currentTuple.add(result[row][column - denomination]);
-                }
-
-                if (row > 0 && !result[row - 1][column].isImpossible()) {
-                    if (result[row][column].isImpossible()) {
-                        result[row][column] = result[row - 1][column];
-                    } else if (result[row - 1][column].total() < result[row][column].total()) {
+                    if (row > FIRST_ROW && result[row - 1][column].total() < result[row][column].total()) {
                         result[row][column] = result[row - 1][column];
                     }
                 }
             }
         }
-
-        return result[dLength - 1][amount];
+        
+        return result[denominations.length - 1][amount];
     }
 
     private static void printUsage() {
