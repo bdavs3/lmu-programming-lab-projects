@@ -9,6 +9,7 @@ public class GeneralizedChangemakerTestHarness {
 
         test_USA();
         test_other();
+        test_invalidInput();
 
         System.out.println(successes + "/" + attempts + " tests passed.");
     }
@@ -174,6 +175,28 @@ public class GeneralizedChangemakerTestHarness {
         } catch (Exception e) {
             e.printStackTrace();
             displayFailure();
+        }
+    }
+
+    private static void test_invalidInput() {
+        System.out.println("Testing invalid input...");
+
+        int[] denom0 = new int[] { 3, 6, -8, 11 };
+        int[] denom1 = new int[] { 0, 3, 2, 5 };
+        int[] denom2 = new int[] { 2, 17, 4, 3, 17, 7 };    
+
+        try {
+            Tuple result0 = GeneralizedChangemaker.makeChangeWithDynamicProgramming(denom0, 87);
+            displayFailure();
+        } catch (Exception e) {
+            displaySuccessIfTrue(true);
+        }
+
+        try {
+            Tuple result1 = GeneralizedChangemaker.makeChangeWithDynamicProgramming(denom1, 42);
+            displayFailure();
+        } catch (Exception e) {
+            displaySuccessIfTrue(true);
         }
     }
 
