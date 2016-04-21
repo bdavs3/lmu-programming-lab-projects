@@ -75,12 +75,10 @@ public class GeneralizedChangemaker {
                     result[row][column] = currentTuple.add(result[row][column - denomination]);
                 }
 
-                if (row > 0) {
-                    boolean impossibleAbove = result[row - 1][column].isImpossible();
-                    boolean impossibleCurrent = result[row][column].isImpossible();
-                    if (!impossibleAbove && !impossibleCurrent && (result[row - 1][column].total() < result[row][column].total())) {
+                if (row > 0 && !result[row - 1][column].isImpossible()) {
+                    if (result[row][column].isImpossible()) {
                         result[row][column] = result[row - 1][column];
-                    } else if (!impossibleAbove && impossibleCurrent) {
+                    } else if (result[row - 1][column].total() < result[row][column].total()) {
                         result[row][column] = result[row - 1][column];
                     }
                 }
