@@ -94,6 +94,10 @@ public class Tuple {
      * @return the total of the elements of this tuple
      */
     public int total() {
+        if (this.isImpossible()) {
+            return Integer.MAX_VALUE;
+        }
+
         int sum = 0;
         for (int i = 0; i < length(); i++) {
             sum = sum + getElement(i);
