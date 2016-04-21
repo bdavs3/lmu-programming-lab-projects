@@ -109,7 +109,7 @@ public class Tuple {
      * @return the element-wise sum of this and t
      */
     public Tuple add(Tuple t) {
-        if (this.equals(Tuple.IMPOSSIBLE) || t.equals(Tuple.IMPOSSIBLE)) {
+        if (this.isImpossible() || t.isImpossible()) {
             return Tuple.IMPOSSIBLE;
         }
 
