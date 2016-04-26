@@ -10,17 +10,39 @@ import java.io.InputStreamReader;
 
 public class MapColorer {
 
+    private Region[] regions;
+    private boolean done = false;
+
     public void colorMap() {
-        // You fill this in.
-        // Use System.out.println() to output the colored map.
-        // See the instructions for the proper format.
-        // It is okay to write private helper methods in this class.
-        // If you're doing things recursively, you will need one.
-        //
-        // Remember your job is to systematically to work your way through
-        // Region.getAllRegionsAsArray(), calling canColorWith, setColor,
-        // removeColor. You will be going forward and backward through
-        // the array.
+        regions = Region.getAllRegionsAsArray();
+        int lastCountry = regions.length - 1;
+        int index = 0;
+        while (!done) {
+            for (int i = 0; i <= 3; i++) {
+                if (regions[index].canColorWith(i)) {
+                    if (i != regions[index].getColor()) {
+                        regions[index].setColor(i);
+                        i = 4;
+                    } else {
+                        if (index == 0 && regions[0].getColor != null) {
+                            System.out.println("IMPOSSIBLE MAP");
+                            return;
+                        }
+                    }
+                }
+            }
+
+            index += regions[index].getColor() == null ? -1 : 1;
+            if (index > lastCountry) {
+                done = true;
+            }
+        }
+    }
+
+    public void outputResults() {
+        for (int i = 0; i < regions.length; i++) {
+            System.out.println(regions[i].getName() + ":" + regions[i].getColor());
+        }
     }
 
     public void readMapFromStandardInput() {
@@ -38,6 +60,7 @@ public class MapColorer {
         MapColorer mapColorer = new MapColorer();
         mapColorer.readMapFromStandardInput();
         mapColorer.colorMap();
+        mapColorer.outputResults();
     }
  }
 
