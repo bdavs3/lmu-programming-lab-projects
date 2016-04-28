@@ -11,37 +11,40 @@ import java.io.InputStreamReader;
 public class MapColorer {
 
     private Region[] regions;
-    private boolean done = false;
+    private int index, color;
 
+    //INSTEAD OF USING COLORS 0-3 I AM USING 1-4 TO MAKE IT CLEAR THAT THERE ARE 4 COLORS
     public void colorMap() {
         regions = Region.getAllRegionsAsArray();
-        int lastCountry = regions.length - 1;
-        int index = 0;
-        while (!done) {
-            for (int i = 0; i <= 3; i++) {
+        index = 0;
+        color = 1;
+        while (index < regions.length) {
+            for (int i = color; i <= 4; i++) {
                 if (regions[index].canColorWith(i)) {
-                    if (i != regions[index].getColor()) {
-                        regions[index].setColor(i);
-                        i = 4;
-                    } else {
-                        if (index == 0 && regions[0].getColor != null) {
-                            System.out.println("IMPOSSIBLE MAP");
-                            return;
-                        }
-                    }
+                    regions[index].setColor(i);
+                    i = 5;
                 }
             }
 
-            index += regions[index].getColor() == null ? -1 : 1;
-            if (index > lastCountry) {
-                done = true;
+            if (regions[index].getColor() == null) {
+                index--;
+                if (index < 0) {
+                    System.out.println("IMPOSSIBLE MAP");
+                    System.exit(0);
+                }
+                color = regions[index].getColor() + 1;
+                regions[index].removeColor();
+            } else {
+                index++;
+                color = 1;
             }
         }
     }
 
     public void outputResults() {
-        for (int i = 0; i < regions.length; i++) {
-            System.out.println(regions[i].getName() + ":" + regions[i].getColor());
+        System.out.println("");
+        for (Region r : regions) {
+            System.out.println(r.getName() + ":" + r.getColor());
         }
     }
 
@@ -49,6 +52,7 @@ public class MapColorer {
         new BufferedReader(new InputStreamReader(System.in))
             .lines()
             .forEach(line -> {
+                System.out.println(line);
                 String[] pair = line.trim().split(",");
                 Region region0 = Region.forName(pair[0]);
                 Region region1 = Region.forName(pair[1]);
