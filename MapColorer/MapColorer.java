@@ -13,7 +13,7 @@ public class MapColorer {
     private Region[] regions;
     private int index, color;
 
-    //INSTEAD OF USING COLORS 0-3 I AM USING 1-4 TO MAKE IT CLEAR THAT THERE ARE 4 COLORS
+    //Instead of using colors 0-3, 1-4 are being used to make it clear there are 4 colors
     public void colorMap() {
         regions = Region.getAllRegionsAsArray();
         index = 0;
@@ -41,7 +41,16 @@ public class MapColorer {
         }
     }
 
-    public void outputResults() {
+    public void outputData() {
+        for (Region r : regions) {
+            Object[] objAr = r.getNeighbors().toArray();
+            System.out.print(r.getName() + ": " + ((Region) objAr[0]).getName());
+            for (int i = 1; i < objAr.length; i++) {
+                Region neighbor = (Region) objAr[i];
+                System.out.print(", " + neighbor.getName());
+            }
+            System.out.println("");
+        }
         System.out.println("");
         for (Region r : regions) {
             System.out.println(r.getName() + ":" + r.getColor());
@@ -52,7 +61,6 @@ public class MapColorer {
         new BufferedReader(new InputStreamReader(System.in))
             .lines()
             .forEach(line -> {
-                System.out.println(line);
                 String[] pair = line.trim().split(",");
                 Region region0 = Region.forName(pair[0]);
                 Region region1 = Region.forName(pair[1]);
@@ -64,7 +72,7 @@ public class MapColorer {
         MapColorer mapColorer = new MapColorer();
         mapColorer.readMapFromStandardInput();
         mapColorer.colorMap();
-        mapColorer.outputResults();
+        mapColorer.outputData();
     }
  }
 
