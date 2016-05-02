@@ -7,7 +7,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.IOException;
 
 public class MapColorer {
 
@@ -43,6 +42,13 @@ public class MapColorer {
     }
 
     public void outputData() {
+        for (Region r : regions) {
+            Object[] neighbors = r.getNeighbors().toArray();
+            for (Object o : neighbors) {
+                Region neighbor = (Region) o;
+                System.out.println(r.getName() + "," + neighbor.getName());
+            }
+        }
         System.out.println("");
         for (Region r : regions) {
             System.out.println(r.getName() + ":" + r.getColor());
@@ -53,7 +59,6 @@ public class MapColorer {
         new BufferedReader(new InputStreamReader(System.in))
             .lines()
             .forEach(line -> {
-                System.out.println(line);
                 String[] pair = line.trim().split(",");
                 Region region0 = Region.forName(pair[0]);
                 Region region1 = Region.forName(pair[1]);
