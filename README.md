@@ -8,6 +8,8 @@ This repository contains various projects for LMU CMSI 186: Programming Lab.
 
 ### How To Run
 
+_Note_: You'll need a working version of Java on your machine to run these programs.
+
 Clone the repository using
 
 ```sh
